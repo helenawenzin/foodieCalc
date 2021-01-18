@@ -20,10 +20,12 @@ public class UnitController {
     private UnitRepository repository;
 
     @RequestMapping(method = RequestMethod.GET, value = "unit/allunits")
-    public List<Unit> getAlUnits() { return repository.findAll();}
+    public List<Unit> getAlUnits() {
+        return repository.findAll();
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/unit/{id}")
-    public Optional<Unit> getUnitById(@PathVariable("id")UUID id) {
+    public Optional<Unit> getUnitById(@PathVariable("id") UUID id) {
         return repository.findById(id);
     }
 
