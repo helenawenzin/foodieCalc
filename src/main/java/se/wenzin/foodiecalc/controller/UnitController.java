@@ -19,7 +19,7 @@ public class UnitController {
     @Autowired
     private UnitRepository repository;
 
-    @RequestMapping(method = RequestMethod.GET, value = "unit/allunits")
+    @RequestMapping(method = RequestMethod.GET, value = "units")
     public List<Unit> getAlUnits() {
         return repository.findAll();
     }
@@ -34,7 +34,7 @@ public class UnitController {
         return repository.save(unit);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/unit/update")
+    @RequestMapping(method = RequestMethod.PUT, value = "/unit")
     public Unit updateUnit(@RequestBody Unit unit) {
         return repository.save(unit);
     }
