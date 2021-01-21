@@ -1,6 +1,9 @@
 package se.wenzin.foodiecalc.controller;
 
 import io.restassured.RestAssured;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,42 +25,78 @@ class FoodCategoryControllerTest {
     @Autowired
     private ServerProperties serverProperties;
 
-    @Test
-    public void getFoodCategory() {
+    @BeforeEach
+    public void before() {
+        RestAssured.baseURI = "http://localhost:" + serverProperties.getPort();
+    }
 
-        String body = "{\"name\": \"dinner\"}";
-        FoodCategory foodCategory = createFoodCategory(body);
+    @Test
+    public void getFoodCategory() throws JSONException {
+        JSONObject body = new JSONObject()
+                .put("name", "breakfast");
+
+        FoodCategory foodCategory = createFoodCategory(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("http://localhost:" + serverProperties.getPort() + "/foodcategory/" + foodCategory.getId())
+                .get("/foodcategory/" + foodCategory.getId())
                 .then()
                 .statusCode(200);
     }
 
     @Test
-    public void getFoodcategories() {
-        String body = "{\"name\": \"dessert\"}";
-        createFoodCategory(body);
-        String body2 = "{\"name\": \"lunch\"}";
-        createFoodCategory(body2);
+    public void getFoodcategories() throws JSONException {
+        JSONObject body = new JSONObject()
+                .put("name", "breakfast");
+        createFoodCategory(body.toString());
 
+        JSONObject body2 = new JSONObject()
+                .put("name", "lunch");
+        createFoodCategory(body2.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("http://localhost:" + serverProperties.getPort() + "/foodcategories")
+                .get("/foodcategories")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .body("[0]", hasKey("id"))
                 .assertThat().body(notNullValue());
+    }
 
+    @Test
+    public void upgradeFoodCategory() throws JSONException {
+        JSONObject body = new JSONObject()
+                .put("name", "breakfast");
+        FoodCategory foodCategory = createFoodCategory(body.toString());
 
+        JSONObject updateBody = new JSONObject()
+                .put("id", foodCategory.getId())
+                .put("name", "lunch");
+
+        RestAssured.given().contentType("application/json")
+                .body(updateBody.toString())
+                .put("/foodcategory")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    public void deleteFoodCategory() throws JSONException {
+        JSONObject body = new JSONObject()
+                .put("name", "breakfast");
+        FoodCategory foodCategory = createFoodCategory(body.toString());
+
+        RestAssured.given().contentType("application/json")
+                .delete("/foodcategory/" + foodCategory.getId())
+                .then()
+                .log().all()
+                .statusCode(200);
     }
 
     private FoodCategory createFoodCategory(String body) {
 
         return RestAssured.given().contentType("application/json")
                 .body(body)
-                .post("http://localhost:" + serverProperties.getPort() + "/foodcategory")
+                .post("/foodcategory")
                 .then()
                 .log()
                 .all()
@@ -66,5 +105,4 @@ class FoodCategoryControllerTest {
                 .body()
                 .as(FoodCategory.class);
     }
-
 }
