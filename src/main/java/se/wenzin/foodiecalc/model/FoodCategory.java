@@ -9,8 +9,8 @@ import java.util.UUID;
 public class FoodCategory implements Serializable {
 
     @Id
-    @Column(name = "ID", columnDefinition = "uuid")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
     private UUID uuid;
 
     @Column(name = "NAME")
