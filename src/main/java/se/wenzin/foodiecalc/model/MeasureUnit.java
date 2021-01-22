@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "UNIT")
-public class Unit implements Serializable {
+public class MeasureUnit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,10 +21,10 @@ public class Unit implements Serializable {
     @Column(name = "NAME")
     private String name;
 
-    public Unit() {
+    public MeasureUnit() {
     }
 
-    public Unit(UUID uuid, String name) {
+    public MeasureUnit(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
     }

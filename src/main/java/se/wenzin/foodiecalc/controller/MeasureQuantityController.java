@@ -15,17 +15,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-public class MeasurequantityController {
+public class MeasureQuantityController {
 
     @Autowired
     private MeasureQuantityRepository repository;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/measurequantitys")
+    @RequestMapping(method = RequestMethod.GET, value = "/measurequantities")
     public List<MeasureQuantity> getAllMeasureQuantities() {
         return repository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/measurequantity")
+    @RequestMapping(method = RequestMethod.GET, value = "/measurequantity/{id}")
     public Optional<MeasureQuantity> getMeasureQuantityById(@PathVariable("id") UUID id) {
         return repository.findById(id);
     }

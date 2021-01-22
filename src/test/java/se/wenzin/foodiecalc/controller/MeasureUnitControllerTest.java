@@ -11,14 +11,14 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import se.wenzin.foodiecalc.model.Unit;
+import se.wenzin.foodiecalc.model.MeasureUnit;
 
 import static org.hamcrest.Matchers.containsString;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class UnitControllerTest {
+class MeasureUnitControllerTest {
 
     @Autowired
     private ServerProperties serverProperties;
@@ -33,10 +33,10 @@ class UnitControllerTest {
         JSONObject body = new JSONObject()
                 .put("name", "dl");
 
-        Unit unit = createUnit(body.toString());
+        MeasureUnit measureUnit = createUnit(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/unit/" + unit.getId())
+                .get("/unit/" + measureUnit.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -46,11 +46,11 @@ class UnitControllerTest {
     public void getUnits() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "dl");
-        Unit u1 = createUnit(body.toString());
+        MeasureUnit u1 = createUnit(body.toString());
 
         JSONObject body2 = new JSONObject()
                 .put("name", "msk");
-        Unit u2 = createUnit(body2.toString());
+        MeasureUnit u2 = createUnit(body2.toString());
 
         RestAssured.given().contentType("application/json")
                 .get("/units")
@@ -68,10 +68,10 @@ class UnitControllerTest {
     public void upgradeUnit() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "dl");
-        Unit unit = createUnit(body.toString());
+        MeasureUnit measureUnit = createUnit(body.toString());
 
         JSONObject updateBody = new JSONObject()
-                .put("id", unit.getId())
+                .put("id", measureUnit.getId())
                 .put("name", "tsk");
 
         RestAssured.given().contentType("application/json")
@@ -85,16 +85,16 @@ class UnitControllerTest {
     public void deleteFoodCategory() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "liter");
-        Unit unit = createUnit(body.toString());
+        MeasureUnit measureUnit = createUnit(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .delete("/unit/" + unit.getId())
+                .delete("/unit/" + measureUnit.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
-    private Unit createUnit(String body) {
+    private MeasureUnit createUnit(String body) {
 
         return RestAssured.given().contentType("application/json")
                 .body(body)
@@ -105,6 +105,6 @@ class UnitControllerTest {
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(Unit.class);
+                .as(MeasureUnit.class);
     }
 }
