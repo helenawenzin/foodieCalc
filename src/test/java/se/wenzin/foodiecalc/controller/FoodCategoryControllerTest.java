@@ -13,8 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.wenzin.foodiecalc.model.FoodCategory;
 
-import static org.hamcrest.Matchers.hasKey;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.containsString;
 
 
 @ActiveProfiles("test")
@@ -44,22 +43,25 @@ class FoodCategoryControllerTest {
     }
 
     @Test
-    public void getFoodcategories() throws JSONException {
+    public void getFoodCategories() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        createFoodCategory(body.toString());
+        FoodCategory f1 = createFoodCategory(body.toString());
 
         JSONObject body2 = new JSONObject()
                 .put("name", "lunch");
-        createFoodCategory(body2.toString());
+        FoodCategory f2 = createFoodCategory(body2.toString());
 
         RestAssured.given().contentType("application/json")
                 .get("/foodcategories")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("[0]", hasKey("id"))
-                .assertThat().body(notNullValue());
+                .assertThat()
+                .body(containsString("lunch"))
+                .and().body(containsString("breakfast"))
+                .and().body(containsString(f1.getId().toString()))
+                .and().body(containsString(f2.getId().toString()));
     }
 
     @Test
