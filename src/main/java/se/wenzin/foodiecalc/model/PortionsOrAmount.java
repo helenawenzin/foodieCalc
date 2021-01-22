@@ -1,6 +1,11 @@
 package se.wenzin.foodiecalc.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -10,21 +15,22 @@ public class PortionsOrAmount implements Serializable {
 
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private UUID uuid;
 
-    @Column(name = "UNITID")
-    private UUID unitId;
+    @Column(name = "MEASUREUNITID")
+    private UUID measureUnitId;
 
     @Column(name = "QUANTITY")
     private Long quantity;
 
-    public PortionsOrAmount() {}
+    public PortionsOrAmount() {
+    }
 
-    public PortionsOrAmount(UUID uuid1id, UUID unitId, Long quantity) {
+    public PortionsOrAmount(UUID uuid, UUID measureUnitId, Long quantity) {
         this.uuid = uuid;
-        this.unitId = unitId;
+        this.measureUnitId = measureUnitId;
         this.quantity = quantity;
     }
 
@@ -36,12 +42,12 @@ public class PortionsOrAmount implements Serializable {
         this.uuid = uuid;
     }
 
-    public UUID getUnitId() {
-        return unitId;
+    public UUID getMeasureUnitId() {
+        return measureUnitId;
     }
 
-    public void setUnitId(UUID unitId) {
-        this.unitId = unitId;
+    public void setMeasureUnitId(UUID measureUnitId) {
+        this.measureUnitId = measureUnitId;
     }
 
     public Long getQuantity() {

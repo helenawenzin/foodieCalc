@@ -11,14 +11,16 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import se.wenzin.foodiecalc.model.FoodCategory;
+import se.wenzin.foodiecalc.model.PortionsOrAmount;
+
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class FoodCategoryControllerTest {
+class PortionsOrAmountControllerTest {
 
     @Autowired
     private ServerProperties serverProperties;
@@ -29,84 +31,87 @@ class FoodCategoryControllerTest {
     }
 
     @Test
-    public void getFoodCategoryById() throws JSONException {
+    public void getPortionsOrAmountById() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "breakfast");
+                .put("measureUnitId", UUID.randomUUID())
+                .put("quantity", "20");
 
-        FoodCategory foodCategory = createFoodCategory(body.toString());
+        PortionsOrAmount portionsOrAmount = createPortionsOrAmount(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/foodcategory/" + foodCategory.getId())
+                .get("/portionsoramount/" + portionsOrAmount.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
     @Test
-    public void getFoodCategories() throws JSONException {
+    public void getPortionsOrAmounts() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "breakfast");
-        FoodCategory f1 = createFoodCategory(body.toString());
+                .put("measureUnitId", UUID.randomUUID())
+                .put("quantity", "4");
+        PortionsOrAmount p1 = createPortionsOrAmount(body.toString());
 
         JSONObject body2 = new JSONObject()
-                .put("name", "lunch");
-        FoodCategory f2 = createFoodCategory(body2.toString());
+                .put("measureUnitId", UUID.randomUUID())
+                .put("quantity", "25");
+        PortionsOrAmount p2 = createPortionsOrAmount(body2.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/foodcategories")
+                .get("/portionsoramounts")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body(containsString("lunch"))
-                .and().body(containsString("breakfast"))
-                .and().body(containsString(f1.getId().toString()))
-                .and().body(containsString(f2.getId().toString()));
+                .body(containsString(body.getString("measureUnitId")))
+                .and().body(containsString("25"))
+                .and().body(containsString(p1.getId().toString()))
+                .and().body(containsString(p2.getId().toString()));
     }
 
     @Test
-    public void upgradeFoodCategory() throws JSONException {
+    public void upgradePortionsOrAmount() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "breakfast");
-        FoodCategory foodCategory = createFoodCategory(body.toString());
+                .put("measureUnitId", UUID.randomUUID())
+                .put("quantity", "4");
+        PortionsOrAmount portionsOrAmount = createPortionsOrAmount(body.toString());
 
         JSONObject updateBody = new JSONObject()
-                .put("id", foodCategory.getId())
-                .put("name", "lunch");
+                .put("id", portionsOrAmount.getId())
+                .put("quantity", "10");
 
         RestAssured.given().contentType("application/json")
                 .body(updateBody.toString())
-                .put("/foodcategory")
+                .put("/portionsoramount")
                 .then()
                 .statusCode(200);
     }
 
     @Test
-    public void deleteFoodCategory() throws JSONException {
+    public void deletePortionsOrAmount() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "breakfast");
-        FoodCategory foodCategory = createFoodCategory(body.toString());
+                .put("measureUnitId", UUID.randomUUID())
+                .put("quantity", "4");
+        PortionsOrAmount portionsOrAmount = createPortionsOrAmount(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .delete("/foodcategory/" + foodCategory.getId())
+                .delete("/portionsoramount/" + portionsOrAmount.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
-    private FoodCategory createFoodCategory(String body) {
-
-        System.out.println("..............." + body.toString());
+    private PortionsOrAmount createPortionsOrAmount(String body) {
 
         return RestAssured.given().contentType("application/json")
                 .body(body)
-                .post("/foodcategory")
+                .post("/portionsoramount")
                 .then()
                 .log()
                 .all()
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(FoodCategory.class);
+                .as(PortionsOrAmount.class);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-public class UnitController {
+public class MeasureUnitController {
 
     @Autowired
     private UnitRepository repository;

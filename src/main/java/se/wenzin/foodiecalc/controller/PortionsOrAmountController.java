@@ -19,18 +19,18 @@ public class PortionsOrAmountController {
     @Autowired
     private PortionsOrAmountRepository repository;
 
+    @RequestMapping(method = RequestMethod.GET, value = "/portionsoramount/{id}")
+    public Optional<PortionsOrAmount> getPortionsOrAmountById(@PathVariable("id") UUID id) {
+        return repository.findById(id);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/portionsoramounts")
     public List<PortionsOrAmount> getAllPortionsOrAmounts() {
         return repository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/portionsoramount/{id}")
-    public Optional<PortionsOrAmount> getPortionsOrAmountById(@PathVariable("id")UUID id) {
-        return repository.findById(id);
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/portionsoramount")
-    public PortionsOrAmount createportionsOrAmount(@RequestBody PortionsOrAmount portionsOrAmount) {
+    public PortionsOrAmount createPortionsOrAmount(@RequestBody PortionsOrAmount portionsOrAmount) {
         return repository.save(portionsOrAmount);
     }
 

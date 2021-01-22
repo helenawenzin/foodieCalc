@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "UNIT")
+@Table(name = "MEASUREUNIT")
 public class MeasureUnit implements Serializable {
 
     @Id
