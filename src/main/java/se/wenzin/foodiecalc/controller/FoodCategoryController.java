@@ -19,14 +19,14 @@ public class FoodCategoryController {
     @Autowired
     private FoodCategoryRepository repository;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/foodcategories")
-    public List<FoodCategory> getAllFoodCategories() {
-        return repository.findAll();
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/foodcategory/{id}")
     public Optional<FoodCategory> getFoodCategoryById(@PathVariable("id") UUID id) {
         return repository.findById(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/foodcategories")
+    public List<FoodCategory> getAllFoodCategories() {
+        return repository.findAll();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/foodcategory")
