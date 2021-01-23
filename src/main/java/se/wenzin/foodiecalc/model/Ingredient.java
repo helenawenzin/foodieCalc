@@ -19,8 +19,8 @@ public class Ingredient implements Serializable {
     @Column(name = "MEASUREID")
     private UUID measureId;
 
-    @Column(name = "QUANTITYID")
-    private UUID quantityId;
+    @Column(name = "QUANTITY")
+    private Long quantity;
 
     public Ingredient() {}
 
@@ -28,7 +28,7 @@ public class Ingredient implements Serializable {
         this.uuid = uuid;
         this.ingredientNameId = ingredientNameId;
         this.measureId = measureId;
-        this.quantityId = quantityId;
+        this.quantity = quantity;
     }
 
     public UUID getId() {
@@ -55,11 +55,11 @@ public class Ingredient implements Serializable {
         this.measureId = measureId;
     }
 
-    public UUID getQuantityId() {
-        return quantityId;
+    public Long getQuantity() {
+        return quantity;
     }
 
-    public void setQuantityId(UUID quantityId) {
-        this.quantityId = quantityId;
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
     }
 }
