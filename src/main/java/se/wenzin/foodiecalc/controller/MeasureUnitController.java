@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import se.wenzin.foodiecalc.model.MeasureUnit;
-import se.wenzin.foodiecalc.repo.UnitRepository;
+import se.wenzin.foodiecalc.repo.MeasureUnitRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class MeasureUnitController {
 
     @Autowired
-    private UnitRepository repository;
+    private MeasureUnitRepository repository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/unit/{id}")
     public Optional<MeasureUnit> getUnitById(@PathVariable("id") UUID id) {

@@ -5,5 +5,5 @@ import se.wenzin.foodiecalc.model.MeasureUnit;
 
 import java.util.UUID;
 
-public interface UnitRepository extends JpaRepository<MeasureUnit, UUID> {
+public interface MeasureUnitRepository extends JpaRepository<MeasureUnit, UUID> {
 }
