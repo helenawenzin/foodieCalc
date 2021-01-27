@@ -1,7 +1,13 @@
 package se.wenzin.foodiecalc.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -9,7 +15,7 @@ import java.util.UUID;
 public class Ingredient implements Serializable {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private UUID uuid;
 
@@ -22,7 +28,8 @@ public class Ingredient implements Serializable {
     @Column(name = "QUANTITY")
     private Long quantity;
 
-    public Ingredient() {}
+    public Ingredient() {
+    }
 
     public Ingredient(UUID uuid, UUID ingredientNameId, UUID measureId, UUID quantityId) {
         this.uuid = uuid;
@@ -61,5 +68,31 @@ public class Ingredient implements Serializable {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "uuid=" + uuid +
+                ", ingredientNameId=" + ingredientNameId +
+                ", measureId=" + measureId +
+                ", quantity=" + quantity +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return uuid.equals(that.uuid) &&
+                ingredientNameId.equals(that.ingredientNameId) &&
+                measureId.equals(that.measureId) &&
+                Objects.equals(quantity, that.quantity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, ingredientNameId, measureId, quantity);
     }
 }

@@ -20,7 +20,7 @@ public class RecipeController {
     private RecipeRepository repository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/recipes")
-    public List<Recipe> getAllRecipes(@PathVariable("id") UUID id) {
+    public List<Recipe> getAllRecipes() {
         return repository.findAll();
     }
 

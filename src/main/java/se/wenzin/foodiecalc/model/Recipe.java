@@ -1,8 +1,14 @@
 package se.wenzin.foodiecalc.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -10,16 +16,16 @@ import java.util.UUID;
 public class Recipe implements Serializable {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private UUID uuid;
 
     @Column(name = "PORTIONSORAMOUNTID")
     private UUID portionsOrAmountId;
 
-    @ElementCollection
+    @ManyToMany
     @Column(name = "INGREDIENTS")
-    private List<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
 
     @Column(name = "INSTRUCTIONS")
     private String instructions;
@@ -30,7 +36,7 @@ public class Recipe implements Serializable {
     public Recipe() {
     }
 
-    public Recipe(UUID uuid, UUID portionsOrAmountId, List<Ingredient> ingredients, String instructions, UUID foodCategoryId) {
+    public Recipe(UUID uuid, UUID portionsOrAmountId, Set<Ingredient> ingredients, String instructions, UUID foodCategoryId) {
         this.uuid = uuid;
         this.portionsOrAmountId = portionsOrAmountId;
         this.ingredients = ingredients;
@@ -54,11 +60,11 @@ public class Recipe implements Serializable {
         this.portionsOrAmountId = portionsOrAmountId;
     }
 
-    public List<Ingredient> getIngredients() {
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -76,5 +82,16 @@ public class Recipe implements Serializable {
 
     public void setFoodCategoryId(UUID foodCategoryId) {
         this.foodCategoryId = foodCategoryId;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "uuid=" + uuid +
+                ", portionsOrAmountId=" + portionsOrAmountId +
+                ", ingredients=" + ingredients +
+                ", instructions='" + instructions + '\'' +
+                ", foodCategoryId=" + foodCategoryId +
+                '}';
     }
 }

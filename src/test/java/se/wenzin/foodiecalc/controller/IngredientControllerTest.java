@@ -16,6 +16,7 @@ import se.wenzin.foodiecalc.model.Ingredient;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
+import static se.wenzin.foodiecalc.controller.TestControllerUtil.createIngredient;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -37,7 +38,7 @@ class IngredientControllerTest {
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "2");
 
-        Ingredient ingredient = createIngredient(body.toString());
+        Ingredient ingredient = createIngredient(body);
 
         RestAssured.given().contentType("application/json")
                 .get("/ingredient/" + ingredient.getId())
@@ -52,13 +53,13 @@ class IngredientControllerTest {
                 .put("ingredientNameId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "2");
-        Ingredient i1 = createIngredient(body.toString());
+        Ingredient i1 = createIngredient(body);
 
         JSONObject body2 = new JSONObject()
                 .put("ingredientNameId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "4");
-        Ingredient i2 = createIngredient(body2.toString());
+        Ingredient i2 = createIngredient(body2);
 
         RestAssured.given().contentType("application/json")
                 .get("/ingredients")
@@ -73,14 +74,15 @@ class IngredientControllerTest {
     }
 
     @Test
-    public void upgradeIngredient() throws JSONException {
+    public void updateIngredient() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("ingredientNameId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "2");
-        Ingredient ingredient = createIngredient(body.toString());
+        Ingredient ingredient = createIngredient(body);
 
         JSONObject updateBody = new JSONObject()
+                .put("id", ingredient.getId())
                 .put("ingredientNameId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "5");
@@ -89,6 +91,7 @@ class IngredientControllerTest {
                 .body(updateBody.toString())
                 .put("/ingredient")
                 .then()
+                .log().all()
                 .statusCode(200);
     }
 
@@ -96,7 +99,7 @@ class IngredientControllerTest {
     public void deleteIngredient() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        Ingredient ingredient = createIngredient(body.toString());
+        Ingredient ingredient = createIngredient(body);
 
         RestAssured.given().contentType("application/json")
                 .delete("/ingredient/" + ingredient.getId())
@@ -105,19 +108,4 @@ class IngredientControllerTest {
                 .statusCode(200);
     }
 
-    private Ingredient createIngredient(String body) {
-
-        System.out.println("..............." + body.toString());
-
-        return RestAssured.given().contentType("application/json")
-                .body(body)
-                .post("/ingredient")
-                .then()
-                .log()
-                .all()
-                .statusCode(200)
-                .extract()
-                .body()
-                .as(Ingredient.class);
-    }
 }
