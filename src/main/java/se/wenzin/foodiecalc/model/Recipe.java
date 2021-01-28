@@ -20,8 +20,8 @@ public class Recipe implements Serializable {
     @Column(name = "ID")
     private UUID uuid;
 
-    @Column(name = "PORTIONSORAMOUNTID")
-    private UUID portionsOrAmountId;
+    @Column(name = "PORTIONSORAMOUNT")
+    private String portionsOrAmount;
 
     @ManyToMany
     @Column(name = "INGREDIENTS")
@@ -36,9 +36,9 @@ public class Recipe implements Serializable {
     public Recipe() {
     }
 
-    public Recipe(UUID uuid, UUID portionsOrAmountId, Set<Ingredient> ingredients, String instructions, UUID foodCategoryId) {
+    public Recipe(UUID uuid, String portionsOrAmount, Set<Ingredient> ingredients, String instructions, UUID foodCategoryId) {
         this.uuid = uuid;
-        this.portionsOrAmountId = portionsOrAmountId;
+        this.portionsOrAmount = portionsOrAmount;
         this.ingredients = ingredients;
         this.instructions = instructions;
         this.foodCategoryId = foodCategoryId;
@@ -52,12 +52,12 @@ public class Recipe implements Serializable {
         this.uuid = uuid;
     }
 
-    public UUID getPortionsOrAmountId() {
-        return portionsOrAmountId;
+    public String getPortionsOrAmount() {
+        return portionsOrAmount;
     }
 
-    public void setPortionsOrAmountId(UUID portionsOrAmountId) {
-        this.portionsOrAmountId = portionsOrAmountId;
+    public void setPortionsOrAmountId(String portionsOrAmount) {
+        this.portionsOrAmount = portionsOrAmount;
     }
 
     public Set<Ingredient> getIngredients() {
@@ -88,7 +88,7 @@ public class Recipe implements Serializable {
     public String toString() {
         return "Recipe{" +
                 "uuid=" + uuid +
-                ", portionsOrAmountId=" + portionsOrAmountId +
+                ", portionsOrAmount='" + portionsOrAmount + '\'' +
                 ", ingredients=" + ingredients +
                 ", instructions='" + instructions + '\'' +
                 ", foodCategoryId=" + foodCategoryId +
