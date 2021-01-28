@@ -67,7 +67,7 @@ class MeasureControllerTest {
     }
 
     @Test
-    public void upgradeMeasure() throws JSONException {
+    public void updateMeasure() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "portioner");
         Measure measure = createMeasure(body.toString());
@@ -100,8 +100,6 @@ class MeasureControllerTest {
     }
 
     private Measure createMeasure(String body) {
-
-        System.out.println("..............." + body.toString());
 
         return RestAssured.given().contentType("application/json")
                 .body(body)

@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "RECIPE_INGREDIENT")
+@Table(name = "RECIPEINGREDIENT")
 public class RecipeIngredient implements Serializable {
 
     @Id
@@ -19,8 +19,8 @@ public class RecipeIngredient implements Serializable {
     @Column(name = "ID")
     private UUID uuid;
 
-    @Column(name = "INGREDIENTNAMEID")
-    private UUID ingredientNameId;
+    @Column(name = "INGREDIENTID")
+    private UUID ingredientId;
 
     @Column(name = "MEASUREID")
     private UUID measureId;
@@ -31,11 +31,11 @@ public class RecipeIngredient implements Serializable {
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(UUID uuid, UUID ingredientNameId, UUID measureId, UUID quantityId) {
+    public RecipeIngredient(UUID uuid, UUID ingredientId, UUID measureId, Long quantity) {
         this.uuid = uuid;
-        this.ingredientNameId = ingredientNameId;
+        this.ingredientId = ingredientId;
         this.measureId = measureId;
-        this.quantity = quantity;
+        this.quantity= quantity;
     }
 
     public UUID getId() {
@@ -46,12 +46,12 @@ public class RecipeIngredient implements Serializable {
         this.uuid = uuid;
     }
 
-    public UUID getIngredientNameId() {
-        return ingredientNameId;
+    public UUID getIngredientId() {
+        return ingredientId;
     }
 
-    public void setIngredientNameId(UUID ingredientNameId) {
-        this.ingredientNameId = ingredientNameId;
+    public void setIngredientId(UUID ingredientId) {
+        this.ingredientId = ingredientId;
     }
 
     public UUID getMeasureId() {
@@ -74,7 +74,7 @@ public class RecipeIngredient implements Serializable {
     public String toString() {
         return "Ingredient{" +
                 "uuid=" + uuid +
-                ", ingredientNameId=" + ingredientNameId +
+                ", ingredientId=" + ingredientId +
                 ", measureId=" + measureId +
                 ", quantity=" + quantity +
                 '}';
@@ -86,13 +86,13 @@ public class RecipeIngredient implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredient that = (RecipeIngredient) o;
         return uuid.equals(that.uuid) &&
-                ingredientNameId.equals(that.ingredientNameId) &&
+                ingredientId.equals(that.ingredientId) &&
                 measureId.equals(that.measureId) &&
                 Objects.equals(quantity, that.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, ingredientNameId, measureId, quantity);
+        return Objects.hash(uuid, ingredientId, measureId, quantity);
     }
 }

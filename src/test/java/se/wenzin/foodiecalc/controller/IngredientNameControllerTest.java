@@ -11,14 +11,14 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import se.wenzin.foodiecalc.model.MeasureUnit;
+import se.wenzin.foodiecalc.model.Ingredient;
 
 import static org.hamcrest.Matchers.containsString;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class MeasureUnitControllerTest {
+class IngredientControllerTest {
 
     @Autowired
     private ServerProperties serverProperties;
@@ -29,82 +29,82 @@ class MeasureUnitControllerTest {
     }
 
     @Test
-    public void getUnitById() throws JSONException {
+    public void getIngredientById() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "dl");
+                .put("name", "vaniljsocker");
 
-        MeasureUnit measureUnit = createUnit(body.toString());
+        Ingredient ingredient = createIngredient(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/unit/" + measureUnit.getId())
+                .get("/ingredient/" + ingredient.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
     @Test
-    public void getUnits() throws JSONException {
+    public void getIngredients() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "dl");
-        MeasureUnit u1 = createUnit(body.toString());
+                .put("name", "vaniljsocker");
+        Ingredient i1 = createIngredient(body.toString());
 
         JSONObject body2 = new JSONObject()
-                .put("name", "msk");
-        MeasureUnit u2 = createUnit(body2.toString());
+                .put("name", "kakao");
+        Ingredient i2 = createIngredient(body2.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/units")
+                .get("/ingredients")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body(containsString("dl"))
-                .and().body(containsString("msk"))
-                .and().body(containsString(u1.getId().toString()))
-                .and().body(containsString(u2.getId().toString()));
+                .body(containsString("vaniljsocker"))
+                .and().body(containsString("kakao"))
+                .and().body(containsString(i1.getId().toString()))
+                .and().body(containsString(i2.getId().toString()));
     }
 
     @Test
-    public void upgradeUnit() throws JSONException {
+    public void updateIngredient() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "dl");
-        MeasureUnit measureUnit = createUnit(body.toString());
+                .put("name", "bakpulver");
+        Ingredient ingredient = createIngredient(body.toString());
 
         JSONObject updateBody = new JSONObject()
-                .put("id", measureUnit.getId())
-                .put("name", "tsk");
+                .put("id", ingredient.getId())
+                .put("name", "bikarbonat");
 
         RestAssured.given().contentType("application/json")
                 .body(updateBody.toString())
-                .put("/unit")
+                .put("/ingredient")
                 .then()
                 .statusCode(200);
     }
 
     @Test
-    public void deleteFoodCategory() throws JSONException {
+    public void deleteIngredient() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "liter");
-        MeasureUnit measureUnit = createUnit(body.toString());
+                .put("name", "socker");
+        Ingredient ingredient = createIngredient(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .delete("/unit/" + measureUnit.getId())
+                .delete("/ingredient/" + ingredient.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
-    private MeasureUnit createUnit(String body) {
+    private Ingredient createIngredient(String body) {
 
         return RestAssured.given().contentType("application/json")
                 .body(body)
-                .post("/unit")
+                .post("/ingredient")
                 .then()
                 .log()
                 .all()
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(MeasureUnit.class);
+                .as(Ingredient.class);
     }
 }

@@ -16,7 +16,7 @@ import se.wenzin.foodiecalc.model.RecipeIngredient;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
-import static se.wenzin.foodiecalc.controller.TestControllerUtil.createIngredient;
+import static se.wenzin.foodiecalc.controller.TestControllerUtil.createRecipeIngredient;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -32,37 +32,37 @@ class RecipeIngredientControllerTest {
     }
 
     @Test
-    public void getIngredientById() throws JSONException {
+    public void getRecipeIngredientById() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "2");
 
-        RecipeIngredient recipeIngredient = createIngredient(body);
+        RecipeIngredient recipeIngredient = createRecipeIngredient(body);
 
         RestAssured.given().contentType("application/json")
-                .get("/ingredient/" + recipeIngredient.getId())
+                .get("/recipeingredient/" + recipeIngredient.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
     @Test
-    public void getIngredients() throws JSONException {
+    public void getRecipeIngredients() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "2");
-        RecipeIngredient i1 = createIngredient(body);
+        RecipeIngredient i1 = createRecipeIngredient(body);
 
         JSONObject body2 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "4");
-        RecipeIngredient i2 = createIngredient(body2);
+        RecipeIngredient i2 = createRecipeIngredient(body2);
 
         RestAssured.given().contentType("application/json")
-                .get("/ingredients")
+                .get("/recipeingredients")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -74,22 +74,22 @@ class RecipeIngredientControllerTest {
     }
 
     @Test
-    public void updateIngredient() throws JSONException {
+    public void updateRecipeIngredient() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "2");
-        RecipeIngredient recipeIngredient = createIngredient(body);
+        RecipeIngredient recipeIngredient = createRecipeIngredient(body);
 
         JSONObject updateBody = new JSONObject()
                 .put("id", recipeIngredient.getId())
-                .put("ingredientNameId", UUID.randomUUID())
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", "5");
 
         RestAssured.given().contentType("application/json")
                 .body(updateBody.toString())
-                .put("/ingredient")
+                .put("/recipeingredient")
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -99,10 +99,10 @@ class RecipeIngredientControllerTest {
     public void deleteIngredient() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        RecipeIngredient recipeIngredient = createIngredient(body);
+        RecipeIngredient recipeIngredient = createRecipeIngredient(body);
 
         RestAssured.given().contentType("application/json")
-                .delete("/ingredient/" + recipeIngredient.getId())
+                .delete("/recipeingredient/" + recipeIngredient.getId())
                 .then()
                 .log().all()
                 .statusCode(200);

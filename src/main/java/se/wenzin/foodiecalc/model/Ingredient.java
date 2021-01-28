@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "INGREDIENTNAME")
-public class IngredientName implements Serializable {
+@Table(name = "INGREDIENT")
+public class Ingredient implements Serializable {
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
@@ -16,9 +16,9 @@ public class IngredientName implements Serializable {
     @Column(name = "NAME")
     private String name;
 
-    public IngredientName() {}
+    public Ingredient() {}
 
-    public IngredientName(UUID uuid, String name) {
+    public Ingredient(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
     }

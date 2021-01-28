@@ -7,10 +7,10 @@ import se.wenzin.foodiecalc.model.Recipe;
 
 public class TestControllerUtil {
 
-    public static RecipeIngredient createIngredient(JSONObject ingredient) {
+    public static RecipeIngredient createRecipeIngredient(JSONObject recipeIngredient) {
         return RestAssured.given().contentType("application/json")
-                .body(ingredient.toString())
-                .post("/ingredient")
+                .body(recipeIngredient.toString())
+                .post("/recipeingredient")
                 .then()
                 .log()
                 .all()

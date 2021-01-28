@@ -35,36 +35,36 @@ class RecipeControllerTest {
 
     @Test
     public void getRecipeById() throws JSONException {
-        JSONObject bodyForCreatingIngredient1 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient1 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 5);
 
-        JSONObject bodyForCreatingIngredient2 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient2 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 10);
 
-        RecipeIngredient recipeIngredient1 = TestControllerUtil.createIngredient(bodyForCreatingIngredient1);
-        RecipeIngredient recipeIngredient2 = TestControllerUtil.createIngredient(bodyForCreatingIngredient2);
+        RecipeIngredient recipeIngredient1 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient1);
+        RecipeIngredient recipeIngredient2 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient2);
 
-        JSONObject ingredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
-                .put("ingredientNameId", recipeIngredient1.getIngredientNameId())
+        JSONObject recipeIngredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
+                .put("recipeIngredientId", recipeIngredient1.getIngredientId())
                 .put("measureId", recipeIngredient1.getMeasureId())
                 .put("quantity", recipeIngredient1.getQuantity());
-        JSONObject ingredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
-                .put("ingredientNameId", recipeIngredient2.getIngredientNameId())
+        JSONObject recipeIngredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
+                .put("ingredientNameId", recipeIngredient2.getIngredientId())
                 .put("measureId", recipeIngredient2.getMeasureId())
                 .put("quantity", recipeIngredient2.getQuantity());
 
-        JSONArray ingredientsForRecipeBody = new JSONArray()
-                .put(ingredientWithId1)
-                .put(ingredientWithId2);
+        JSONArray recipeIngredientsForRecipeBody = new JSONArray()
+                .put(recipeIngredientWithId1)
+                .put(recipeIngredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
                 .put("title", "Chokladbollar")
                 .put("portionsOrAmount", "20 st")
-                .put("ingredients", ingredientsForRecipeBody)
+                .put("recipeIngredients", recipeIngredientsForRecipeBody)
                 .put("instructions", "1. Blanda alla ingredienser. 2.Rulla bollar.")
                 .put("foodCategoryId", UUID.randomUUID());
 
@@ -83,61 +83,61 @@ class RecipeControllerTest {
     @Test
     public void getRecipes() throws JSONException {
 
-        JSONObject bodyForCreatingIngredient1 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient1 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 5);
 
-        JSONObject bodyForCreatingIngredient2 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient2 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 10);
 
-        RecipeIngredient recipeIngredient1 = TestControllerUtil.createIngredient(bodyForCreatingIngredient1);
-        RecipeIngredient recipeIngredient2 = TestControllerUtil.createIngredient(bodyForCreatingIngredient2);
+        RecipeIngredient recipeIngredient1 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient1);
+        RecipeIngredient recipeIngredient2 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient2);
 
-        JSONObject ingredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
-                .put("ingredientNameId", recipeIngredient1.getIngredientNameId())
+        JSONObject recipeIngredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
+                .put("ingredientId", recipeIngredient1.getIngredientId())
                 .put("measureId", recipeIngredient1.getMeasureId())
                 .put("quantity", recipeIngredient1.getQuantity());
-        JSONObject ingredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
-                .put("ingredientNameId", recipeIngredient2.getIngredientNameId())
+        JSONObject recipeIngredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
+                .put("ingredientId", recipeIngredient2.getIngredientId())
                 .put("measureId", recipeIngredient2.getMeasureId())
                 .put("quantity", recipeIngredient2.getQuantity());
 
-        JSONArray ingredientsForRecipeBody = new JSONArray()
-                .put(ingredientWithId1)
-                .put(ingredientWithId2);
+        JSONArray recipeIngredientsForRecipeBody = new JSONArray()
+                .put(recipeIngredientWithId1)
+                .put(recipeIngredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
                 .put("title", "Schackrutor")
                 .put("portionsOrAmount", "20 st")
-                .put("ingredients", ingredientsForRecipeBody)
+                .put("recipeIngredients", recipeIngredientsForRecipeBody)
                 .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")
                 .put("foodCategoryId", UUID.randomUUID());
 
         Recipe recipe1 = createRecipe(recipeBody);
 
-        JSONObject ingredientWithId1_1 = new JSONObject().put("id", recipeIngredient1.getId())
-                .put("ingredientNameId", recipeIngredient1.getIngredientNameId())
+        JSONObject recipeIngredientWithId1_1 = new JSONObject().put("id", recipeIngredient1.getId())
+                .put("ingredientNameId", recipeIngredient1.getIngredientId())
                 .put("measureId", recipeIngredient1.getMeasureId())
                 .put("quantity", recipeIngredient1.getQuantity());
-        ;
-        JSONObject ingredientWithId2_2 = new JSONObject().put("id", recipeIngredient2.getId())
-                .put("ingredientNameId", recipeIngredient2.getIngredientNameId())
+
+        JSONObject recipeIngredientWithId2_2 = new JSONObject().put("id", recipeIngredient2.getId())
+                .put("ingredientNameId", recipeIngredient2.getIngredientId())
                 .put("measureId", recipeIngredient2.getMeasureId())
                 .put("quantity", recipeIngredient2.getQuantity());
-        ;
 
 
-        JSONArray ingredientsForRecipeBody2 = new JSONArray()
-                .put(ingredientWithId1_1)
-                .put(ingredientWithId2_2);
+
+        JSONArray recipeIngredientsForRecipeBody2 = new JSONArray()
+                .put(recipeIngredientWithId1_1)
+                .put(recipeIngredientWithId2_2);
 
         JSONObject recipeBody2 = new JSONObject()
                 .put("title", "Chokladbollar")
                 .put("portionsOrAmount", "16 st")
-                .put("ingredients", ingredientsForRecipeBody2)
+                .put("recipeIngredients", recipeIngredientsForRecipeBody2)
                 .put("instructions", "Bara blanda allt! Ät fort! ")
                 .put("foodCategoryId", UUID.randomUUID());
 
@@ -160,36 +160,36 @@ class RecipeControllerTest {
     @Test
     public void updateRecipe() throws JSONException {
 
-        JSONObject bodyForCreatingIngredient1 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient1 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 5);
 
-        JSONObject bodyForCreatingIngredient2 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient2 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 10);
 
-        RecipeIngredient recipeIngredient1 = TestControllerUtil.createIngredient(bodyForCreatingIngredient1);
-        RecipeIngredient recipeIngredient2 = TestControllerUtil.createIngredient(bodyForCreatingIngredient2);
+        RecipeIngredient recipeIngredient1 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient1);
+        RecipeIngredient recipeIngredient2 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient2);
 
-        JSONObject ingredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
-                .put("ingredientNameId", recipeIngredient1.getIngredientNameId())
+        JSONObject recipeIngredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
+                .put("ingredientId", recipeIngredient1.getIngredientId())
                 .put("measureId", recipeIngredient1.getMeasureId())
                 .put("quantity", recipeIngredient1.getQuantity());
-        JSONObject ingredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
-                .put("ingredientNameId", recipeIngredient2.getIngredientNameId())
+        JSONObject recipeIngredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
+                .put("ingredientId", recipeIngredient2.getIngredientId())
                 .put("measureId", recipeIngredient2.getMeasureId())
                 .put("quantity", recipeIngredient2.getQuantity());
 
-        JSONArray ingredientsForRecipeBody = new JSONArray()
-                .put(ingredientWithId1)
-                .put(ingredientWithId2);
+        JSONArray recipeIngredientsForRecipeBody = new JSONArray()
+                .put(recipeIngredientWithId1)
+                .put(recipeIngredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
                 .put("title", "Schackrutor")
                 .put("portionsOrAmount", "65 st")
-                .put("ingredients", ingredientsForRecipeBody)
+                .put("recipeIngredients", recipeIngredientsForRecipeBody)
                 .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")
                 .put("foodCategoryId", UUID.randomUUID());
 
@@ -199,7 +199,7 @@ class RecipeControllerTest {
                 .put("id", recipe.getId())
                 .put("title", "Schackrutor")
                 .put("portionsOrAmount", "65 st")
-                .put("ingredients", ingredientsForRecipeBody)
+                .put("recipeIngredients", recipeIngredientsForRecipeBody)
                 .put("foodCategoryId", recipe.getFoodCategoryId())
                 .put("instructions", "En massa nya instruktioner");
 
@@ -218,36 +218,36 @@ class RecipeControllerTest {
 
     @Test
     public void deleteRecipe() throws JSONException {
-        JSONObject bodyForCreatingIngredient1 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient1 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 5);
 
-        JSONObject bodyForCreatingIngredient2 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
+        JSONObject bodyForCreatingRecipeIngredient2 = new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 10);
 
-        RecipeIngredient recipeIngredient1 = TestControllerUtil.createIngredient(bodyForCreatingIngredient1);
-        RecipeIngredient recipeIngredient2 = TestControllerUtil.createIngredient(bodyForCreatingIngredient2);
+        RecipeIngredient recipeIngredient1 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient1);
+        RecipeIngredient recipeIngredient2 = TestControllerUtil.createRecipeIngredient(bodyForCreatingRecipeIngredient2);
 
-        JSONObject ingredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
-                .put("ingredientNameId", recipeIngredient1.getIngredientNameId())
+        JSONObject recipeIngredientWithId1 = new JSONObject().put("id", recipeIngredient1.getId())
+                .put("ingredientId", recipeIngredient1.getIngredientId())
                 .put("measureId", recipeIngredient1.getMeasureId())
                 .put("quantity", recipeIngredient1.getQuantity());
-        JSONObject ingredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
-                .put("ingredientNameId", recipeIngredient2.getIngredientNameId())
+        JSONObject recipeIngredientWithId2 = new JSONObject().put("id", recipeIngredient2.getId())
+                .put("ingredientId", recipeIngredient2.getIngredientId())
                 .put("measureId", recipeIngredient2.getMeasureId())
                 .put("quantity", recipeIngredient2.getQuantity());
 
-        JSONArray ingredientsForRecipeBody = new JSONArray()
-                .put(ingredientWithId1)
-                .put(ingredientWithId2);
+        JSONArray recipeIngredientsForRecipeBody = new JSONArray()
+                .put(recipeIngredientWithId1)
+                .put(recipeIngredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
                 .put("title", "Muffins")
                 .put("portionsOrAmountId", UUID.randomUUID())
-                .put("ingredients", ingredientsForRecipeBody)
+                .put("recipeIngredients", recipeIngredientsForRecipeBody)
                 .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")
                 .put("foodCategoryId", UUID.randomUUID());
 
