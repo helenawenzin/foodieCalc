@@ -62,9 +62,10 @@ class RecipeControllerTest {
                 .put(ingredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
-                .put("portionsOrAmountId", UUID.randomUUID())
+                .put("title", "Chokladbollar")
+                .put("portionsOrAmount", "20 st")
                 .put("ingredients", ingredientsForRecipeBody)
-                .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")
+                .put("instructions", "1. Blanda alla ingredienser. 2.Rulla bollar.")
                 .put("foodCategoryId", UUID.randomUUID());
 
         Recipe recipe = createRecipe(recipeBody);
@@ -75,7 +76,7 @@ class RecipeControllerTest {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body(containsString("1. Blanda alla ingredienser. 2. In i ugnen "))
+                .body(containsString("1. Blanda alla ingredienser. 2.Rulla bollar."))
                 .and().body(containsString(recipe.getId().toString()));
     }
 
@@ -109,7 +110,8 @@ class RecipeControllerTest {
                 .put(ingredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
-                .put("portionsOrAmountId", UUID.randomUUID())
+                .put("title", "Schackrutor")
+                .put("portionsOrAmount", "20 st")
                 .put("ingredients", ingredientsForRecipeBody)
                 .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")
                 .put("foodCategoryId", UUID.randomUUID());
@@ -133,7 +135,8 @@ class RecipeControllerTest {
                 .put(ingredientWithId2_2);
 
         JSONObject recipeBody2 = new JSONObject()
-                .put("portionsOrAmountId", UUID.randomUUID())
+                .put("title", "Chokladbollar")
+                .put("portionsOrAmount", "16 st")
                 .put("ingredients", ingredientsForRecipeBody2)
                 .put("instructions", "Bara blanda allt! Ät fort! ")
                 .put("foodCategoryId", UUID.randomUUID());
@@ -146,7 +149,9 @@ class RecipeControllerTest {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body(containsString("Bara blanda allt! Ät fort! "))
+                .body(containsString("Schackrutor"))
+                .and().body(containsString("Chokladbollar"))
+                .and().body(containsString("Bara blanda allt! Ät fort! "))
                 .and().body(containsString("1. Blanda alla ingredienser. 2. In i ugnen "))
                 .and().body(containsString(recipe1.getId().toString()))
                 .and().body(containsString(recipe2.getId().toString()));
@@ -182,7 +187,8 @@ class RecipeControllerTest {
                 .put(ingredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
-                .put("portionsOrAmountId", UUID.randomUUID())
+                .put("title", "Schackrutor")
+                .put("portionsOrAmount", "65 st")
                 .put("ingredients", ingredientsForRecipeBody)
                 .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")
                 .put("foodCategoryId", UUID.randomUUID());
@@ -191,7 +197,8 @@ class RecipeControllerTest {
 
         JSONObject updateBody = new JSONObject()
                 .put("id", recipe.getId())
-                .put("portionsOrAmountId", UUID.randomUUID())
+                .put("title", "Schackrutor")
+                .put("portionsOrAmount", "65 st")
                 .put("ingredients", ingredientsForRecipeBody)
                 .put("foodCategoryId", recipe.getFoodCategoryId())
                 .put("instructions", "En massa nya instruktioner");
@@ -204,7 +211,8 @@ class RecipeControllerTest {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body(containsString("En massa nya instruktioner"));
+                .body(containsString("En massa nya instruktioner"))
+                .and().body(containsString("Schackrutor"));
 
     }
 
@@ -237,6 +245,7 @@ class RecipeControllerTest {
                 .put(ingredientWithId2);
 
         JSONObject recipeBody = new JSONObject()
+                .put("title", "Muffins")
                 .put("portionsOrAmountId", UUID.randomUUID())
                 .put("ingredients", ingredientsForRecipeBody)
                 .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")

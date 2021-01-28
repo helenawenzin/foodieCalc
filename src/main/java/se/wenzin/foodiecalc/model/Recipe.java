@@ -20,6 +20,9 @@ public class Recipe implements Serializable {
     @Column(name = "ID")
     private UUID uuid;
 
+    @Column(name = "TITLE")
+    private String title;
+
     @Column(name = "PORTIONSORAMOUNT")
     private String portionsOrAmount;
 
@@ -36,8 +39,9 @@ public class Recipe implements Serializable {
     public Recipe() {
     }
 
-    public Recipe(UUID uuid, String portionsOrAmount, Set<Ingredient> ingredients, String instructions, UUID foodCategoryId) {
+    public Recipe(UUID uuid, String title, String portionsOrAmount, Set<Ingredient> ingredients, String instructions, UUID foodCategoryId) {
         this.uuid = uuid;
+        this.title = title;
         this.portionsOrAmount = portionsOrAmount;
         this.ingredients = ingredients;
         this.instructions = instructions;
@@ -52,11 +56,19 @@ public class Recipe implements Serializable {
         this.uuid = uuid;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getPortionsOrAmount() {
         return portionsOrAmount;
     }
 
-    public void setPortionsOrAmountId(String portionsOrAmount) {
+    public void setPortionsOrAmount(String portionsOrAmount) {
         this.portionsOrAmount = portionsOrAmount;
     }
 
@@ -88,6 +100,7 @@ public class Recipe implements Serializable {
     public String toString() {
         return "Recipe{" +
                 "uuid=" + uuid +
+                ", title='" + title + '\'' +
                 ", portionsOrAmount='" + portionsOrAmount + '\'' +
                 ", ingredients=" + ingredients +
                 ", instructions='" + instructions + '\'' +
