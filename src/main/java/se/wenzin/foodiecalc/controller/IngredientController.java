@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import se.wenzin.foodiecalc.model.Ingredient;
+import se.wenzin.foodiecalc.model.RecipeIngredient;
 import se.wenzin.foodiecalc.repo.IngredientRepository;
 
 import java.util.List;
@@ -20,23 +20,23 @@ public class IngredientController {
     private IngredientRepository repository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/ingredients")
-    public List<Ingredient> getAllIngredients() {
+    public List<RecipeIngredient> getAllIngredients() {
         return repository.findAll();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/ingredient/{id}")
-    public Optional<Ingredient> getIngredientById(@PathVariable("id") UUID id) {
+    public Optional<RecipeIngredient> getIngredientById(@PathVariable("id") UUID id) {
         return repository.findById(id);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/ingredient")
-    public Ingredient createIngredient(@RequestBody Ingredient ingredient) {
-        return repository.save(ingredient);
+    public RecipeIngredient createIngredient(@RequestBody RecipeIngredient recipeIngredient) {
+        return repository.save(recipeIngredient);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/ingredient")
-    public Ingredient updateIngredient(@RequestBody Ingredient ingredient) {
-        return repository.save(ingredient);
+    public RecipeIngredient updateIngredient(@RequestBody RecipeIngredient recipeIngredient) {
+        return repository.save(recipeIngredient);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/ingredient/{id}")

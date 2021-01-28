@@ -11,8 +11,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "INGREDIENT")
-public class Ingredient implements Serializable {
+@Table(name = "RECIPE_INGREDIENT")
+public class RecipeIngredient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,10 +28,10 @@ public class Ingredient implements Serializable {
     @Column(name = "QUANTITY")
     private Long quantity;
 
-    public Ingredient() {
+    public RecipeIngredient() {
     }
 
-    public Ingredient(UUID uuid, UUID ingredientNameId, UUID measureId, UUID quantityId) {
+    public RecipeIngredient(UUID uuid, UUID ingredientNameId, UUID measureId, UUID quantityId) {
         this.uuid = uuid;
         this.ingredientNameId = ingredientNameId;
         this.measureId = measureId;
@@ -84,7 +84,7 @@ public class Ingredient implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Ingredient that = (Ingredient) o;
+        RecipeIngredient that = (RecipeIngredient) o;
         return uuid.equals(that.uuid) &&
                 ingredientNameId.equals(that.ingredientNameId) &&
                 measureId.equals(that.measureId) &&

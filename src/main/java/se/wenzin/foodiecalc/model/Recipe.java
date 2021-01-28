@@ -28,7 +28,7 @@ public class Recipe implements Serializable {
 
     @ManyToMany
     @Column(name = "INGREDIENTS")
-    private Set<Ingredient> ingredients;
+    private Set<RecipeIngredient> recipeIngredients;
 
     @Column(name = "INSTRUCTIONS")
     private String instructions;
@@ -39,11 +39,11 @@ public class Recipe implements Serializable {
     public Recipe() {
     }
 
-    public Recipe(UUID uuid, String title, String portionsOrAmount, Set<Ingredient> ingredients, String instructions, UUID foodCategoryId) {
+    public Recipe(UUID uuid, String title, String portionsOrAmount, Set<RecipeIngredient> recipeIngredients, String instructions, UUID foodCategoryId) {
         this.uuid = uuid;
         this.title = title;
         this.portionsOrAmount = portionsOrAmount;
-        this.ingredients = ingredients;
+        this.recipeIngredients = recipeIngredients;
         this.instructions = instructions;
         this.foodCategoryId = foodCategoryId;
     }
@@ -72,12 +72,12 @@ public class Recipe implements Serializable {
         this.portionsOrAmount = portionsOrAmount;
     }
 
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
+    public Set<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 
     public String getInstructions() {
@@ -102,7 +102,7 @@ public class Recipe implements Serializable {
                 "uuid=" + uuid +
                 ", title='" + title + '\'' +
                 ", portionsOrAmount='" + portionsOrAmount + '\'' +
-                ", ingredients=" + ingredients +
+                ", ingredients=" + recipeIngredients +
                 ", instructions='" + instructions + '\'' +
                 ", foodCategoryId=" + foodCategoryId +
                 '}';

@@ -11,17 +11,15 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import se.wenzin.foodiecalc.model.Ingredient;
-
-import java.util.UUID;
+import se.wenzin.foodiecalc.model.FoodCategory;
+import se.wenzin.foodiecalc.model.IngredientName;
 
 import static org.hamcrest.Matchers.containsString;
-import static se.wenzin.foodiecalc.controller.TestControllerUtil.createIngredient;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class IngredientControllerTest {
+class RecipeIngredientNameControllerTest {
 
     @Autowired
     private ServerProperties serverProperties;
@@ -32,80 +30,84 @@ class IngredientControllerTest {
     }
 
     @Test
-    public void getIngredientById() throws JSONException {
+    public void getIngredientNameById() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", "2");
+                .put("name", "vaniljsocker");
 
-        Ingredient ingredient = createIngredient(body);
+        IngredientName ingredientName = createIngredientName(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/ingredient/" + ingredient.getId())
+                .get("/ingredientname/" + ingredientName.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
     @Test
-    public void getIngredients() throws JSONException {
+    public void getIngredientNames() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", "2");
-        Ingredient i1 = createIngredient(body);
+                .put("name", "vaniljsocker");
+        IngredientName i1 = createIngredientName(body.toString());
 
         JSONObject body2 = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", "4");
-        Ingredient i2 = createIngredient(body2);
+                .put("name", "kakao");
+        IngredientName i2 = createIngredientName(body2.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/ingredients")
+                .get("/ingredientnames")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body(containsString("2"))
-                .and().body(containsString("4"))
+                .body(containsString("vaniljsocker"))
+                .and().body(containsString("kakao"))
                 .and().body(containsString(i1.getId().toString()))
                 .and().body(containsString(i2.getId().toString()));
     }
 
     @Test
-    public void updateIngredient() throws JSONException {
+    public void upgradeIngredientName() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("ingredientNameId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", "2");
-        Ingredient ingredient = createIngredient(body);
+                .put("name", "bakpulver");
+        IngredientName ingredientName = createIngredientName(body.toString());
 
         JSONObject updateBody = new JSONObject()
-                .put("id", ingredient.getId())
-                .put("ingredientNameId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", "5");
+                .put("id", ingredientName.getId())
+                .put("name", "bikarbonat");
 
         RestAssured.given().contentType("application/json")
                 .body(updateBody.toString())
-                .put("/ingredient")
+                .put("/ingredientname")
                 .then()
-                .log().all()
                 .statusCode(200);
     }
 
     @Test
-    public void deleteIngredient() throws JSONException {
+    public void deleteIngredientName() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "breakfast");
-        Ingredient ingredient = createIngredient(body);
+                .put("name", "socker");
+        IngredientName ingredientName = createIngredientName(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .delete("/ingredient/" + ingredient.getId())
+                .delete("/ingredientname/" + ingredientName.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
+    private IngredientName createIngredientName(String body) {
+
+        System.out.println("..............." + body.toString());
+
+        return RestAssured.given().contentType("application/json")
+                .body(body)
+                .post("/ingredientname")
+                .then()
+                .log()
+                .all()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(IngredientName.class);
+    }
 }
