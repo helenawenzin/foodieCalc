@@ -28,14 +28,18 @@ public class RecipeIngredient implements Serializable {
     @Column(name = "QUANTITY")
     private Long quantity;
 
+    @Column(name = "RECIPEID")
+    private UUID recipeId;
+
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(UUID uuid, UUID ingredientId, UUID measureId, Long quantity) {
+    public RecipeIngredient(UUID uuid, UUID ingredientId, UUID measureId, Long quantity, UUID recipeId) {
         this.uuid = uuid;
         this.ingredientId = ingredientId;
         this.measureId = measureId;
-        this.quantity= quantity;
+        this.quantity = quantity;
+        this.recipeId = recipeId;
     }
 
     public UUID getId() {
@@ -70,13 +74,22 @@ public class RecipeIngredient implements Serializable {
         this.quantity = quantity;
     }
 
+    public UUID getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(UUID recipeId) {
+        this.recipeId = recipeId;
+    }
+
     @Override
     public String toString() {
-        return "Ingredient{" +
+        return "RecipeIngredient{" +
                 "uuid=" + uuid +
                 ", ingredientId=" + ingredientId +
                 ", measureId=" + measureId +
                 ", quantity=" + quantity +
+                ", recipeId=" + recipeId +
                 '}';
     }
 
@@ -85,14 +98,15 @@ public class RecipeIngredient implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredient that = (RecipeIngredient) o;
-        return uuid.equals(that.uuid) &&
-                ingredientId.equals(that.ingredientId) &&
-                measureId.equals(that.measureId) &&
-                Objects.equals(quantity, that.quantity);
+        return Objects.equals(uuid, that.uuid) &&
+                Objects.equals(ingredientId, that.ingredientId) &&
+                Objects.equals(measureId, that.measureId) &&
+                Objects.equals(quantity, that.quantity) &&
+                Objects.equals(recipeId, that.recipeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, ingredientId, measureId, quantity);
+        return Objects.hash(uuid, ingredientId, measureId, quantity, recipeId);
     }
 }

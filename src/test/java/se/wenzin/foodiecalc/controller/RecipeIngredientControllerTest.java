@@ -36,7 +36,8 @@ class RecipeIngredientControllerTest {
         JSONObject body = new JSONObject()
                 .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
-                .put("quantity", "2");
+                .put("quantity", "2")
+                .put("recipeId", UUID.randomUUID());
 
         RecipeIngredient recipeIngredient = createRecipeIngredient(body);
 
@@ -52,13 +53,17 @@ class RecipeIngredientControllerTest {
         JSONObject body = new JSONObject()
                 .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
-                .put("quantity", "2");
+                .put("quantity", "2")
+                .put("recipeId", UUID.randomUUID());
+
         RecipeIngredient i1 = createRecipeIngredient(body);
 
         JSONObject body2 = new JSONObject()
                 .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
-                .put("quantity", "4");
+                .put("quantity", "4")
+                .put("recipeId", UUID.randomUUID());
+
         RecipeIngredient i2 = createRecipeIngredient(body2);
 
         RestAssured.given().contentType("application/json")
@@ -78,14 +83,17 @@ class RecipeIngredientControllerTest {
         JSONObject body = new JSONObject()
                 .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
-                .put("quantity", "2");
+                .put("quantity", "2")
+                .put("recipeId", UUID.randomUUID());
+
         RecipeIngredient recipeIngredient = createRecipeIngredient(body);
 
         JSONObject updateBody = new JSONObject()
                 .put("id", recipeIngredient.getId())
                 .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())
-                .put("quantity", "5");
+                .put("quantity", "5")
+                .put("recipeId", UUID.randomUUID());
 
         RestAssured.given().contentType("application/json")
                 .body(updateBody.toString())
@@ -96,9 +104,13 @@ class RecipeIngredientControllerTest {
     }
 
     @Test
-    public void deleteIngredient() throws JSONException {
+    public void deleteRecipeIngredient() throws JSONException {
         JSONObject body = new JSONObject()
-                .put("name", "breakfast");
+                .put("ingredientId", UUID.randomUUID())
+                .put("measureId", UUID.randomUUID())
+                .put("quantity", "5")
+                .put("recipeId", UUID.randomUUID());
+
         RecipeIngredient recipeIngredient = createRecipeIngredient(body);
 
         RestAssured.given().contentType("application/json")
