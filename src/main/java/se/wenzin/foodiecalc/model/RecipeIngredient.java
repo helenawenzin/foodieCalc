@@ -1,10 +1,15 @@
 package se.wenzin.foodiecalc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,8 +21,7 @@ public class RecipeIngredient implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
-    private UUID uuid;
+    private UUID id;
 
     @Column(name = "INGREDIENTID")
     private UUID ingredientId;
@@ -28,26 +32,28 @@ public class RecipeIngredient implements Serializable {
     @Column(name = "QUANTITY")
     private Long quantity;
 
-    @Column(name = "RECIPEID")
-    private UUID recipeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id", nullable = false)
+    @JsonIgnore
+    private Recipe recipe;
 
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(UUID uuid, UUID ingredientId, UUID measureId, Long quantity, UUID recipeId) {
-        this.uuid = uuid;
+    public RecipeIngredient(UUID id, UUID ingredientId, UUID measureId, Long quantity, Recipe recipe) {
+        this.id = id;
         this.ingredientId = ingredientId;
         this.measureId = measureId;
         this.quantity = quantity;
-        this.recipeId = recipeId;
+        this.recipe = recipe;
     }
 
     public UUID getId() {
-        return uuid;
+        return id;
     }
 
     public void setId(UUID uuid) {
-        this.uuid = uuid;
+        this.id = uuid;
     }
 
     public UUID getIngredientId() {
@@ -74,22 +80,22 @@ public class RecipeIngredient implements Serializable {
         this.quantity = quantity;
     }
 
-    public UUID getRecipeId() {
-        return recipeId;
+    public Recipe getRecipe() {
+        return recipe;
     }
 
-    public void setRecipeId(UUID recipeId) {
-        this.recipeId = recipeId;
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 
     @Override
     public String toString() {
         return "RecipeIngredient{" +
-                "uuid=" + uuid +
+                "uuid=" + id +
                 ", ingredientId=" + ingredientId +
                 ", measureId=" + measureId +
                 ", quantity=" + quantity +
-                ", recipeId=" + recipeId +
+                ", recipe=" + recipe +
                 '}';
     }
 
@@ -98,15 +104,15 @@ public class RecipeIngredient implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredient that = (RecipeIngredient) o;
-        return Objects.equals(uuid, that.uuid) &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(ingredientId, that.ingredientId) &&
                 Objects.equals(measureId, that.measureId) &&
                 Objects.equals(quantity, that.quantity) &&
-                Objects.equals(recipeId, that.recipeId);
+                Objects.equals(recipe, that.recipe);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, ingredientId, measureId, quantity, recipeId);
+        return Objects.hash(id, ingredientId, measureId, quantity, recipe);
     }
 }

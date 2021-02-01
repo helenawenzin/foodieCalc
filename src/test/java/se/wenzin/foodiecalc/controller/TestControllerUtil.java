@@ -2,15 +2,18 @@ package se.wenzin.foodiecalc.controller;
 
 import io.restassured.RestAssured;
 import org.json.JSONObject;
-import se.wenzin.foodiecalc.model.RecipeIngredient;
 import se.wenzin.foodiecalc.model.Recipe;
+import se.wenzin.foodiecalc.model.RecipeIngredient;
+
+import java.util.UUID;
 
 public class TestControllerUtil {
 
-    public static RecipeIngredient createRecipeIngredient(JSONObject recipeIngredient) {
+    public static RecipeIngredient createRecipeIngredient(UUID recipeId, JSONObject recipeIngredient) {
         return RestAssured.given().contentType("application/json")
                 .body(recipeIngredient.toString())
-                .post("/recipeingredient")
+                .pathParam("recipeId", recipeId)
+                .post("/{recipeId}/recipeingredient")
                 .then()
                 .log()
                 .all()
