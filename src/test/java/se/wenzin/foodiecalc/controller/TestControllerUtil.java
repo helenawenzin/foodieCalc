@@ -1,6 +1,7 @@
 package se.wenzin.foodiecalc.controller;
 
 import io.restassured.RestAssured;
+import org.json.JSONException;
 import org.json.JSONObject;
 import se.wenzin.foodiecalc.model.Recipe;
 import se.wenzin.foodiecalc.model.RecipeIngredient;
@@ -35,5 +36,14 @@ public class TestControllerUtil {
                 .extract()
                 .body()
                 .as(Recipe.class);
+    }
+
+    public static JSONObject createJsonRecipeBody(String title, String portionsOrAmount, String instructions) throws JSONException {
+
+        return new JSONObject()
+                .put("title", title)
+                .put("portionsOrAmount", portionsOrAmount)
+                .put("instructions", instructions)
+                .put("foodCategoryId", UUID.randomUUID());
     }
 }

@@ -16,7 +16,9 @@ import se.wenzin.foodiecalc.model.Recipe;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
+import static se.wenzin.foodiecalc.controller.TestControllerUtil.createJsonRecipeBody;
 import static se.wenzin.foodiecalc.controller.TestControllerUtil.createRecipe;
+import static se.wenzin.foodiecalc.controller.TestControllerUtil.createRecipeIngredient;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -34,8 +36,7 @@ class RecipeControllerTest {
     @Test
     public void createRecipeWithoutIngredients() throws JSONException {
 
-        JSONObject recipeBody = createJsonRecipeBody("Chokladbollar",
-                "20 st",
+        JSONObject recipeBody = createJsonRecipeBody("Chokladbollar", "20 st",
                 "1.Blanda alla ingredienser. 2.Rulla bollar");
 
         Recipe recipe = createRecipe(recipeBody);
@@ -50,20 +51,10 @@ class RecipeControllerTest {
                 .and().body(containsString(recipe.getId().toString()));
     }
 
-    private JSONObject createJsonRecipeBody(String title, String portionsOrAmount, String instructions) throws JSONException {
-
-        return new JSONObject()
-                .put("title", title)
-                .put("portionsOrAmount", portionsOrAmount)
-                .put("instructions", instructions)
-                .put("foodCategoryId", UUID.randomUUID());
-    }
-
     @Test
     public void getRecipeById() throws JSONException {
 
-        JSONObject recipeBody = createJsonRecipeBody("Kärleksmums",
-                "20 st",
+        JSONObject recipeBody = createJsonRecipeBody("Kärleksmums", "20 st",
                 "1.Blanda alla ingredienser. 2.Ät smeten.");
 
         Recipe recipe = createRecipe(recipeBody);
@@ -77,8 +68,8 @@ class RecipeControllerTest {
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 10);
 
-        TestControllerUtil.createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient1);
-        TestControllerUtil.createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient2);
+        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient1);
+        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient2);
 
         RestAssured.given().contentType("application/json")
                 .get("/recipe/" + recipe.getId())
@@ -94,8 +85,7 @@ class RecipeControllerTest {
     public void getRecipes() throws JSONException {
 
 
-        JSONObject recipeBody = createJsonRecipeBody("Köttbullar",
-                "20 st",
+        JSONObject recipeBody = createJsonRecipeBody("Köttbullar", "20 st",
                 "1. Blanda alla ingredienser. 2. Stek");
 
         Recipe recipe1 = createRecipe(recipeBody);
@@ -109,12 +99,11 @@ class RecipeControllerTest {
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 1);
 
-        TestControllerUtil.createRecipeIngredient(recipe1.getId(), bodyForCreatingRecipeIngredient1);
-        TestControllerUtil.createRecipeIngredient(recipe1.getId(), bodyForCreatingRecipeIngredient2);
+        createRecipeIngredient(recipe1.getId(), bodyForCreatingRecipeIngredient1);
+        createRecipeIngredient(recipe1.getId(), bodyForCreatingRecipeIngredient2);
 
 
-        JSONObject recipeBody2 = createJsonRecipeBody("Tacos",
-                "8 st",
+        JSONObject recipeBody2 = createJsonRecipeBody("Tacos", "8 st",
                 "Stek köttfärs! Fyll tortillan!");
 
         Recipe recipe2 = createRecipe(recipeBody2);
@@ -128,8 +117,8 @@ class RecipeControllerTest {
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 3);
 
-        TestControllerUtil.createRecipeIngredient(recipe2.getId(), bodyForCreatingRecipeIngredient1_1);
-        TestControllerUtil.createRecipeIngredient(recipe2.getId(), bodyForCreatingRecipeIngredient2_2);
+        createRecipeIngredient(recipe2.getId(), bodyForCreatingRecipeIngredient1_1);
+        createRecipeIngredient(recipe2.getId(), bodyForCreatingRecipeIngredient2_2);
 
         RestAssured.given().contentType("application/json")
                 .get("/recipes")
@@ -148,8 +137,7 @@ class RecipeControllerTest {
     @Test
     public void updateRecipe() throws JSONException {
 
-        JSONObject recipeBody = createJsonRecipeBody("Tekakor",
-                "18 st",
+        JSONObject recipeBody = createJsonRecipeBody("Tekakor", "18 st",
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
 
         Recipe recipe = createRecipe(recipeBody);
@@ -163,8 +151,8 @@ class RecipeControllerTest {
                 .put("measureId", UUID.randomUUID())
                 .put("quantity", 45);
 
-        TestControllerUtil.createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient1);
-        TestControllerUtil.createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient2);
+        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient1);
+        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient2);
 
         JSONObject updateBody = new JSONObject()
                 .put("id", recipe.getId())
@@ -184,11 +172,8 @@ class RecipeControllerTest {
     @Test
     public void deleteRecipeWithoutIngredients() throws JSONException {
 
-        JSONObject recipeBody = new JSONObject()
-                .put("title", "Muffins")
-                .put("portionsOrAmountId", UUID.randomUUID())
-                .put("instructions", "1. Blanda alla ingredienser. 2. In i ugnen ")
-                .put("foodCategoryId", UUID.randomUUID());
+        JSONObject recipeBody = createJsonRecipeBody("Muffins", "15 st",
+                "1. Vispa ihop ingredienserna. 2.In i ugnen");
 
         Recipe recipe = createRecipe(recipeBody);
 
