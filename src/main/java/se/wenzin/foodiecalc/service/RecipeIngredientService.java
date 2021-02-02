@@ -28,23 +28,23 @@ public class RecipeIngredientService {
     }
 
     public RecipeIngredient createRecipeIngredient(UUID recipeId, RecipeIngredient recipeIngredient) throws Exception {
-        Optional<Recipe> recipe = recipeService.getRecipe(recipeId);
-        if (recipe.isPresent()) {
-            recipeIngredient.setRecipe(recipe.get());
-        } else {
-            throw new Exception("Recipe with id:" + recipeId + " can not be found!");
-        }
+        Recipe recipe = recipeService.getRecipe((recipeId)).orElseThrow(() -> new RuntimeException("Recipe not found."));
+        recipeIngredient.setRecipe(recipe);
+
         return repository.save(recipeIngredient);
     }
 
     public RecipeIngredient updateRecipeIngredient(UUID recipeId, RecipeIngredient recipeIngredient) throws Exception {
-        Optional<Recipe> recipe = recipeService.getRecipe(recipeId);
-        if (recipe.isPresent()) {
-            recipeIngredient.setRecipe(recipe.get());
-        } else {
-            throw new Exception("Recipe with id:" + recipeId + " can not be found!");
-        }
-        return repository.save(recipeIngredient);
+        // TODO: Fix this ugly hack
+        RecipeIngredient storedRecipeIngredient = repository.findById(recipeIngredient.getId()).orElseThrow(() -> new RuntimeException("RecipeIngredient not found"));
+        storedRecipeIngredient.setIngredientId(recipeIngredient.getIngredientId() == null ? storedRecipeIngredient.getIngredientId() : recipeIngredient.getIngredientId());
+        storedRecipeIngredient.setMeasureId(recipeIngredient.getMeasureId() == null ? storedRecipeIngredient.getMeasureId() : recipeIngredient.getMeasureId());
+        storedRecipeIngredient.setQuantity(recipeIngredient.getQuantity() == null ? storedRecipeIngredient.getQuantity() : recipeIngredient.getQuantity());
+
+        recipeService.getRecipe((recipeId)).orElseThrow(() -> new RuntimeException("Recipe not found."));
+        storedRecipeIngredient.setRecipe(recipeIngredient.getRecipe() == null ? storedRecipeIngredient.getRecipe() : recipeIngredient.getRecipe());
+
+        return repository.save(storedRecipeIngredient);
     }
 
     public void removeRecipeIngredient(UUID id) {
