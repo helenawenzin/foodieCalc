@@ -46,4 +46,13 @@ public class TestControllerUtil {
                 .put("instructions", instructions)
                 .put("foodCategoryId", UUID.randomUUID());
     }
+
+    public static JSONObject createJsonRecipeIngredientBody(Long quantity) throws JSONException {
+
+        return new JSONObject()
+                .put("ingredientId", UUID.randomUUID())
+                .put("measureId", UUID.randomUUID())
+                .put("quantity", quantity);
+
+    }
 }

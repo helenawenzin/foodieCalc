@@ -13,10 +13,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.wenzin.foodiecalc.model.Recipe;
 
-import java.util.UUID;
-
 import static org.hamcrest.Matchers.containsString;
 import static se.wenzin.foodiecalc.controller.TestControllerUtil.createJsonRecipeBody;
+import static se.wenzin.foodiecalc.controller.TestControllerUtil.createJsonRecipeIngredientBody;
 import static se.wenzin.foodiecalc.controller.TestControllerUtil.createRecipe;
 import static se.wenzin.foodiecalc.controller.TestControllerUtil.createRecipeIngredient;
 
@@ -56,20 +55,13 @@ class RecipeControllerTest {
 
         JSONObject recipeBody = createJsonRecipeBody("Kärleksmums", "20 st",
                 "1.Blanda alla ingredienser. 2.Ät smeten.");
-
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject bodyForCreatingRecipeIngredient1 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 5);
-        JSONObject bodyForCreatingRecipeIngredient2 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 10);
+        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(5L);
+        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(10L);
 
-        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient1);
-        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient2);
+        createRecipeIngredient(recipe.getId(), recipeIngredientbody1);
+        createRecipeIngredient(recipe.getId(), recipeIngredientbody2);
 
         RestAssured.given().contentType("application/json")
                 .get("/recipe/" + recipe.getId())
@@ -87,38 +79,21 @@ class RecipeControllerTest {
 
         JSONObject recipeBody = createJsonRecipeBody("Köttbullar", "20 st",
                 "1. Blanda alla ingredienser. 2. Stek");
-
         Recipe recipe1 = createRecipe(recipeBody);
 
-        JSONObject bodyForCreatingRecipeIngredient1 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 1);
-        JSONObject bodyForCreatingRecipeIngredient2 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 1);
-
-        createRecipeIngredient(recipe1.getId(), bodyForCreatingRecipeIngredient1);
-        createRecipeIngredient(recipe1.getId(), bodyForCreatingRecipeIngredient2);
-
+        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(1L);
+        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(5L);
+        createRecipeIngredient(recipe1.getId(), recipeIngredientbody1);
+        createRecipeIngredient(recipe1.getId(), recipeIngredientbody2);
 
         JSONObject recipeBody2 = createJsonRecipeBody("Tacos", "8 st",
                 "Stek köttfärs! Fyll tortillan!");
-
         Recipe recipe2 = createRecipe(recipeBody2);
 
-        JSONObject bodyForCreatingRecipeIngredient1_1 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 3);
-        JSONObject bodyForCreatingRecipeIngredient2_2 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 3);
-
-        createRecipeIngredient(recipe2.getId(), bodyForCreatingRecipeIngredient1_1);
-        createRecipeIngredient(recipe2.getId(), bodyForCreatingRecipeIngredient2_2);
+        JSONObject recipeIngredientbody1_1 = createJsonRecipeIngredientBody(3L);
+        JSONObject recipeIngredientbody2_2 = createJsonRecipeIngredientBody(6L);
+        createRecipeIngredient(recipe2.getId(), recipeIngredientbody1_1);
+        createRecipeIngredient(recipe2.getId(), recipeIngredientbody2_2);
 
         RestAssured.given().contentType("application/json")
                 .get("/recipes")
@@ -139,20 +114,13 @@ class RecipeControllerTest {
 
         JSONObject recipeBody = createJsonRecipeBody("Tekakor", "18 st",
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
-
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject bodyForCreatingRecipeIngredient1 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 44);
-        JSONObject bodyForCreatingRecipeIngredient2 = new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
-                .put("quantity", 45);
+        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(44L);
+        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(45L);
 
-        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient1);
-        createRecipeIngredient(recipe.getId(), bodyForCreatingRecipeIngredient2);
+        createRecipeIngredient(recipe.getId(), recipeIngredientbody1);
+        createRecipeIngredient(recipe.getId(), recipeIngredientbody2);
 
         JSONObject updateBody = new JSONObject()
                 .put("id", recipe.getId())
