@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import se.wenzin.foodiecalc.model.FoodCategory;
+import se.wenzin.foodiecalc.dto.FoodCategoryDto;
 
 import static org.hamcrest.Matchers.containsString;
 
@@ -33,7 +33,7 @@ class FoodCategoryControllerTest {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
 
-        FoodCategory foodCategory = createFoodCategory(body.toString());
+        FoodCategoryDto foodCategory = createFoodCategory(body.toString());
 
         RestAssured.given().contentType("application/json")
                 .get("/foodcategory/" + foodCategory.getId())
@@ -46,11 +46,11 @@ class FoodCategoryControllerTest {
     public void getFoodCategories() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        FoodCategory f1 = createFoodCategory(body.toString());
+        FoodCategoryDto f1 = createFoodCategory(body.toString());
 
         JSONObject body2 = new JSONObject()
                 .put("name", "lunch");
-        FoodCategory f2 = createFoodCategory(body2.toString());
+        FoodCategoryDto f2 = createFoodCategory(body2.toString());
 
         RestAssured.given().contentType("application/json")
                 .get("/foodcategories")
@@ -68,7 +68,7 @@ class FoodCategoryControllerTest {
     public void upgradeFoodCategory() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        FoodCategory foodCategory = createFoodCategory(body.toString());
+        FoodCategoryDto foodCategory = createFoodCategory(body.toString());
 
         JSONObject updateBody = new JSONObject()
                 .put("id", foodCategory.getId())
@@ -85,7 +85,7 @@ class FoodCategoryControllerTest {
     public void deleteFoodCategory() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        FoodCategory foodCategory = createFoodCategory(body.toString());
+        FoodCategoryDto foodCategory = createFoodCategory(body.toString());
 
         RestAssured.given().contentType("application/json")
                 .delete("/foodcategory/" + foodCategory.getId())
@@ -94,7 +94,7 @@ class FoodCategoryControllerTest {
                 .statusCode(200);
     }
 
-    private FoodCategory createFoodCategory(String body) {
+    private FoodCategoryDto createFoodCategory(String body) {
 
         return RestAssured.given().contentType("application/json")
                 .body(body)
@@ -105,6 +105,6 @@ class FoodCategoryControllerTest {
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(FoodCategory.class);
+                .as(FoodCategoryDto.class);
     }
 }

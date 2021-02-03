@@ -1,5 +1,8 @@
 package se.wenzin.foodiecalc.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,37 +14,15 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "FOODCATEGORY")
+@Data
+@NoArgsConstructor
 public class FoodCategory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private UUID uuid;
+    private UUID id;
 
     @Column(name = "NAME")
     private String name;
-
-    public FoodCategory() {
-    }
-
-    public FoodCategory(UUID uuid, String name) {
-        this.uuid = uuid;
-        this.name = name;
-    }
-
-    public UUID getId() {
-        return uuid;
-    }
-
-    public void setId(UUID uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
