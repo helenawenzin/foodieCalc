@@ -96,8 +96,6 @@ class FoodCategoryControllerTest {
 
     private FoodCategory createFoodCategory(String body) {
 
-        System.out.println("..............." + body.toString());
-
         return RestAssured.given().contentType("application/json")
                 .body(body)
                 .post("/foodcategory")

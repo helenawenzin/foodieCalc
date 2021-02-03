@@ -35,6 +35,7 @@ class RecipeIngredientControllerTest {
 
     @Test
     public void getRecipeIngredientById() throws JSONException {
+
         JSONObject recipeBody = createJsonRecipeBody("Chokladbollar", "20 st",
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
         Recipe recipe = createRecipe(recipeBody);

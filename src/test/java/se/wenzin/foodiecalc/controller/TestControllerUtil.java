@@ -25,7 +25,6 @@ public class TestControllerUtil {
     }
 
     public static Recipe createRecipe(JSONObject recipe) {
-
         return RestAssured.given().contentType("application/json")
                 .body(recipe.toString())
                 .post("/recipe")
@@ -39,7 +38,6 @@ public class TestControllerUtil {
     }
 
     public static JSONObject createJsonRecipeBody(String title, String portionsOrAmount, String instructions) throws JSONException {
-
         return new JSONObject()
                 .put("title", title)
                 .put("portionsOrAmount", portionsOrAmount)
@@ -48,7 +46,6 @@ public class TestControllerUtil {
     }
 
     public static JSONObject createJsonRecipeIngredientBody(Long quantity) throws JSONException {
-
         return new JSONObject()
                 .put("ingredientId", UUID.randomUUID())
                 .put("measureId", UUID.randomUUID())

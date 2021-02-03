@@ -25,7 +25,7 @@ public class MeasureController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/measure/{id}")
-    public Optional<Measure> getMeasureById(@PathVariable("id")UUID id) {
+    public Optional<Measure> getMeasureById(@PathVariable("id") UUID id) {
         return repository.findById(id);
     }
 

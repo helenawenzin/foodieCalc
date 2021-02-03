@@ -76,7 +76,6 @@ class RecipeControllerTest {
     @Test
     public void getRecipes() throws JSONException {
 
-
         JSONObject recipeBody = createJsonRecipeBody("Köttbullar", "20 st",
                 "1. Blanda alla ingredienser. 2. Stek");
         Recipe recipe1 = createRecipe(recipeBody);
