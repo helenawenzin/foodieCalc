@@ -1,13 +1,17 @@
 package se.wenzin.foodiecalc.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import se.wenzin.foodiecalc.dto.IngredientDto;
 import se.wenzin.foodiecalc.model.Ingredient;
 import se.wenzin.foodiecalc.repo.IngredientRepository;
+import se.wenzin.foodiecalc.service.IngredientService;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +22,12 @@ public class IngredientController {
 
     @Autowired
     private IngredientRepository repository;
+
+    @Autowired
+    private IngredientService service;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "/ingredients")
     public List<Ingredient> getAllIngredients() {
@@ -30,8 +40,9 @@ public class IngredientController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/ingredient")
-    public Ingredient createIngredient(@RequestBody Ingredient ingredient) {
-        return repository.save(ingredient);
+    public ResponseEntity<IngredientDto> createIngredient(@RequestBody IngredientDto ingredientDto) {
+        Ingredient savedIngredient = service.createIngredient(convertToEntity(ingredientDto));
+        return ResponseEntity.ok(convertToDto(savedIngredient));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/ingredient")
@@ -42,6 +53,17 @@ public class IngredientController {
     @RequestMapping(method = RequestMethod.DELETE, value = "/ingredient/{id}")
     public void removeIngredient(@PathVariable("id") UUID id) {
         repository.deleteById(id);
+    }
+
+
+    private Ingredient convertToEntity(IngredientDto ingredientDto) {
+        Ingredient ingredient = modelMapper.map(ingredientDto, Ingredient.class);
+        return ingredient;
+    }
+
+    private IngredientDto convertToDto(Ingredient ingredient) {
+        IngredientDto ingredientDto = modelMapper.map(ingredient, IngredientDto.class);
+        return ingredientDto;
     }
 
 }

@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.http.ResponseEntity.notFound;
+
 @RestController
 public class FoodCategoryController {
 
@@ -30,8 +32,12 @@ public class FoodCategoryController {
     private ModelMapper modelMapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "/foodcategory/{id}")
-    public Optional<FoodCategory> getFoodCategoryById(@PathVariable("id") UUID id) {
-        return repository.findById(id);
+    public ResponseEntity<FoodCategoryDto> getFoodCategoryById(@PathVariable("id") UUID id) {
+        Optional<FoodCategoryDto> optionalDto = service.findById(id);
+        if(optionalDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(optionalDto.get());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/foodcategories")

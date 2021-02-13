@@ -13,6 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.wenzin.foodiecalc.dto.FoodCategoryDto;
 
+import java.util.UUID;
+
 import static org.hamcrest.Matchers.containsString;
 
 @ActiveProfiles("test")
@@ -40,6 +42,17 @@ class FoodCategoryControllerTest {
                 .then()
                 .log().all()
                 .statusCode(200);
+    }
+
+    @Test
+    public void getFoodCategoryByIdNotFound() throws JSONException {
+
+        UUID id = UUID.randomUUID();
+        RestAssured.given().contentType("application/json")
+                .get("/foodcategory/" + id)
+                .then()
+                .log().all()
+                .statusCode(404);
     }
 
     @Test

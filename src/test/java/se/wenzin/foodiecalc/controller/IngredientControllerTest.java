@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import se.wenzin.foodiecalc.dto.IngredientDto;
 import se.wenzin.foodiecalc.model.Ingredient;
 
 import static org.hamcrest.Matchers.containsString;
@@ -33,10 +34,10 @@ class IngredientControllerTest {
         JSONObject body = new JSONObject()
                 .put("name", "vaniljsocker");
 
-        Ingredient ingredient = createIngredient(body.toString());
+        IngredientDto ingredientDto = createIngredient(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/ingredient/" + ingredient.getId())
+                .get("/ingredient/" + ingredientDto.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -46,11 +47,11 @@ class IngredientControllerTest {
     public void getIngredients() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "vaniljsocker");
-        Ingredient i1 = createIngredient(body.toString());
+        IngredientDto i1 = createIngredient(body.toString());
 
         JSONObject body2 = new JSONObject()
                 .put("name", "kakao");
-        Ingredient i2 = createIngredient(body2.toString());
+        IngredientDto i2 = createIngredient(body2.toString());
 
         RestAssured.given().contentType("application/json")
                 .get("/ingredients")
@@ -68,10 +69,10 @@ class IngredientControllerTest {
     public void updateIngredient() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "bakpulver");
-        Ingredient ingredient = createIngredient(body.toString());
+        IngredientDto ingredientDto = createIngredient(body.toString());
 
         JSONObject updateBody = new JSONObject()
-                .put("id", ingredient.getId())
+                .put("id", ingredientDto.getId())
                 .put("name", "bikarbonat");
 
         RestAssured.given().contentType("application/json")
@@ -85,16 +86,16 @@ class IngredientControllerTest {
     public void deleteIngredient() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "socker");
-        Ingredient ingredient = createIngredient(body.toString());
+        IngredientDto ingredientDto = createIngredient(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .delete("/ingredient/" + ingredient.getId())
+                .delete("/ingredient/" + ingredientDto.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
-    private Ingredient createIngredient(String body) {
+    private IngredientDto createIngredient(String body) {
 
         return RestAssured.given().contentType("application/json")
                 .body(body)
@@ -105,6 +106,6 @@ class IngredientControllerTest {
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(Ingredient.class);
+                .as(IngredientDto.class);
     }
 }
