@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.wenzin.foodiecalc.dto.FoodCategoryDto;
@@ -21,6 +22,7 @@ import static org.hamcrest.Matchers.containsString;
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class FoodCategoryControllerTest {
 
     @Autowired
@@ -90,13 +92,13 @@ class FoodCategoryControllerTest {
     }
 
     @Test
-    public void upgradeFoodCategory() throws JSONException {
+    public void updateFoodCategory() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        FoodCategoryDto foodCategory = createFoodCategory(body.toString());
+        FoodCategoryDto foodCategoryDto = createFoodCategory(body.toString());
 
         JSONObject updateBody = new JSONObject()
-                .put("id", foodCategory.getId())
+                .put("id", foodCategoryDto.getId())
                 .put("name", "lunch");
 
         RestAssured.given().contentType("application/json")
@@ -110,10 +112,10 @@ class FoodCategoryControllerTest {
     public void deleteFoodCategory() throws JSONException {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
-        FoodCategoryDto foodCategory = createFoodCategory(body.toString());
+        FoodCategoryDto foodCategoryDto = createFoodCategory(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .delete("/foodcategory/" + foodCategory.getId())
+                .delete("/foodcategory/" + foodCategoryDto.getId())
                 .then()
                 .log().all()
                 .statusCode(200);

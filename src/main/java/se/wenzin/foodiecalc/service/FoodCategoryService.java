@@ -23,9 +23,7 @@ public class FoodCategoryService {
 
 
     public FoodCategory createFoodCategory(FoodCategory foodCategory) {
-
         return repository.save(foodCategory);
-
     }
 
     public Optional<FoodCategoryDto> findById(UUID id) {
@@ -43,7 +41,14 @@ public class FoodCategoryService {
         return foodCategories.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
 
+    public FoodCategory updateFoodCategory(FoodCategory foodCategory) {
+        return repository.save(foodCategory);
+    }
+
+    public void deleteById(UUID id) {
+        repository.deleteById(id);
     }
 
     private FoodCategory convertToEntity(FoodCategoryDto dto) {
@@ -55,5 +60,4 @@ public class FoodCategoryService {
         FoodCategoryDto dto = modelMapper.map(foodCategory, FoodCategoryDto.class);
         return dto;
     }
-
 }

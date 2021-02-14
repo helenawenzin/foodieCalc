@@ -51,13 +51,14 @@ public class FoodCategoryController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/foodcategory")
-    public FoodCategory updateFoodCategory(@RequestBody FoodCategory foodCategory) {
-        return repository.save(foodCategory);
+    public ResponseEntity<FoodCategoryDto> updateFoodCategory(@RequestBody FoodCategoryDto foodCategoryDto) {
+        FoodCategory savedFoodCategory = service.updateFoodCategory(convertToEntity(foodCategoryDto));
+        return ResponseEntity.ok(convertToDto(savedFoodCategory));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/foodcategory/{id}")
     public void removeFoodCategory(@PathVariable("id") UUID id) {
-        repository.deleteById(id);
+        service.deleteById(id);
     }
 
     private FoodCategory convertToEntity(FoodCategoryDto dto) {
