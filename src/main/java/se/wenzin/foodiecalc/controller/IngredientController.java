@@ -51,13 +51,14 @@ public class IngredientController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/ingredient")
-    public Ingredient updateIngredient(@RequestBody Ingredient ingredient) {
-        return repository.save(ingredient);
+    public ResponseEntity<Ingredient> updateIngredient(@RequestBody IngredientDto ingredientDto) {
+        Ingredient savedIngredient = service.updateIngredient(convertToEntity(ingredientDto));
+        return ResponseEntity.ok(savedIngredient);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/ingredient/{id}")
     public void removeIngredient(@PathVariable("id") UUID id) {
-        repository.deleteById(id);
+        service.deleteById(id);
     }
 
 

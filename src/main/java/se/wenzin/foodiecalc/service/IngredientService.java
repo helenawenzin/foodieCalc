@@ -42,6 +42,14 @@ public class IngredientService {
                 .collect(Collectors.toList());
     }
 
+    public Ingredient updateIngredient(Ingredient ingredient) {
+        return repository.save(ingredient);
+    }
+
+    public void deleteById(UUID id) {
+        repository.deleteById(id);
+    }
+
     private Ingredient convertToEntity(IngredientDto dto) {
         Ingredient ingredient = modelMapper.map(dto, Ingredient.class);
         return ingredient;
