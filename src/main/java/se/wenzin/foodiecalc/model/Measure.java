@@ -5,12 +5,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum Measure {
 
-    LITER("l", "liter" ),
+    LITER("l", "liter"),
     DL("dl", "deciliter"),
     MSK("msk", "matsked"),
     TSK("tsk", "tesked"),
-    KRM("krm", "kryddmått");
-    
+    KRM("krm", "kryddmått"),
+    NYPA("nypa", "nypa");
+
     private final String shortName;
     private final String longName;
 
