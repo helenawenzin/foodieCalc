@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import se.wenzin.foodiecalc.dto.FoodCategoryDto;
-import se.wenzin.foodiecalc.model.FoodCategory;
-import se.wenzin.foodiecalc.repo.FoodCategoryRepository;
 import se.wenzin.foodiecalc.service.FoodCategoryService;
 
 import java.util.List;
@@ -21,13 +19,7 @@ import java.util.UUID;
 public class FoodCategoryController {
 
     @Autowired
-    private FoodCategoryRepository repository;
-
-    @Autowired
     private FoodCategoryService service;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "/foodcategory/{id}")
     public ResponseEntity<FoodCategoryDto> getFoodCategoryById(@PathVariable("id") UUID id) {
@@ -46,29 +38,17 @@ public class FoodCategoryController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/foodcategory")
     public ResponseEntity<FoodCategoryDto> createFoodCategory(@RequestBody FoodCategoryDto foodCategoryDto) {
-        FoodCategory savedFoodCategory = service.createFoodCategory(convertToEntity(foodCategoryDto));
-        return ResponseEntity.ok(convertToDto(savedFoodCategory));
+        return ResponseEntity.ok(service.createFoodCategory(foodCategoryDto));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/foodcategory")
     public ResponseEntity<FoodCategoryDto> updateFoodCategory(@RequestBody FoodCategoryDto foodCategoryDto) {
-        FoodCategory savedFoodCategory = service.updateFoodCategory(convertToEntity(foodCategoryDto));
-        return ResponseEntity.ok(convertToDto(savedFoodCategory));
+        FoodCategoryDto savedFoodCategoryDto = service.updateFoodCategory(foodCategoryDto);
+        return ResponseEntity.ok(savedFoodCategoryDto);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/foodcategory/{id}")
     public void removeFoodCategory(@PathVariable("id") UUID id) {
         service.deleteById(id);
     }
-
-    private FoodCategory convertToEntity(FoodCategoryDto dto) {
-        FoodCategory foodCategory = modelMapper.map(dto, FoodCategory.class);
-        return foodCategory;
-    }
-
-    private FoodCategoryDto convertToDto(FoodCategory foodCategory) {
-        FoodCategoryDto dto = modelMapper.map(foodCategory, FoodCategoryDto.class);
-        return dto;
-    }
-
 }

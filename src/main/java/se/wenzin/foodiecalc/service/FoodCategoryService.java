@@ -22,13 +22,9 @@ public class FoodCategoryService {
     private ModelMapper modelMapper;
 
 
-    public FoodCategory createFoodCategory(FoodCategory foodCategory) {
-        return repository.save(foodCategory);
-    }
-
     public Optional<FoodCategoryDto> findById(UUID id) {
         Optional<FoodCategory> foodCategory = repository.findById(id);
-        if(foodCategory.isEmpty()){
+        if (foodCategory.isEmpty()) {
             return Optional.empty();
         }
         FoodCategoryDto foodCategoryDto = convertToDto(foodCategory.get());
@@ -43,8 +39,14 @@ public class FoodCategoryService {
                 .collect(Collectors.toList());
     }
 
-    public FoodCategory updateFoodCategory(FoodCategory foodCategory) {
-        return repository.save(foodCategory);
+    public FoodCategoryDto createFoodCategory(FoodCategoryDto foodCategoryDto) {
+        FoodCategory savedFoodCategory = repository.save(convertToEntity(foodCategoryDto));
+        return convertToDto(savedFoodCategory);
+    }
+
+    public FoodCategoryDto updateFoodCategory(FoodCategoryDto foodCategoryDto) {
+        FoodCategory savedFoodCategory = repository.save(convertToEntity(foodCategoryDto));
+        return convertToDto(savedFoodCategory);
     }
 
     public void deleteById(UUID id) {

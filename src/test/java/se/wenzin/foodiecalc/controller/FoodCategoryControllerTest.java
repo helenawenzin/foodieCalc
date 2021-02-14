@@ -38,10 +38,10 @@ class FoodCategoryControllerTest {
         JSONObject body = new JSONObject()
                 .put("name", "breakfast");
 
-        FoodCategoryDto foodCategory = createFoodCategory(body.toString());
+        FoodCategoryDto foodCategoryDto = createFoodCategory(body.toString());
 
         RestAssured.given().contentType("application/json")
-                .get("/foodcategory/" + foodCategory.getId())
+                .get("/foodcategory/" + foodCategoryDto.getId())
                 .then()
                 .log().all()
                 .statusCode(200);
