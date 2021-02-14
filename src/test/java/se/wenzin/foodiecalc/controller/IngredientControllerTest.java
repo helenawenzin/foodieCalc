@@ -1,6 +1,7 @@
 package se.wenzin.foodiecalc.controller;
 
 import io.restassured.RestAssured;
+import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,16 +10,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.wenzin.foodiecalc.dto.IngredientDto;
-import se.wenzin.foodiecalc.model.Ingredient;
+
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class IngredientControllerTest {
 
     @Autowired
@@ -42,6 +46,29 @@ class IngredientControllerTest {
                 .log().all()
                 .statusCode(200);
     }
+
+    @Test
+    public void getIngredientByIdNotFound() throws JSONException {
+
+        UUID id = UUID.randomUUID();
+        RestAssured.given().contentType("application/json")
+                .get("/ingredient/" + id)
+                .then()
+                .log().all()
+                .statusCode(404);
+    }
+
+    @Test
+    public void getIngredientsEmpty() {
+        RestAssured.given().contentType("application/json")
+                .get("/ingredients")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("isEmpty()", Matchers.is(true));
+    }
+
 
     @Test
     public void getIngredients() throws JSONException {

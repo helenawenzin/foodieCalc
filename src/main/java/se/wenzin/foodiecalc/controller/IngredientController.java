@@ -29,14 +29,19 @@ public class IngredientController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/ingredients")
-    public List<Ingredient> getAllIngredients() {
-        return repository.findAll();
+    @RequestMapping(method = RequestMethod.GET, value = "/ingredient/{id}")
+    public ResponseEntity<IngredientDto> getIngredientById(@PathVariable("id") UUID id) {
+        Optional<IngredientDto> optionalDto = service.findById(id);
+        if(optionalDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(optionalDto.get());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/ingredient/{id}")
-    public Optional<Ingredient> getIngredientById(@PathVariable("id") UUID id) {
-        return repository.findById(id);
+    @RequestMapping(method = RequestMethod.GET, value = "/ingredients")
+    public ResponseEntity<List<IngredientDto>> getAllIngredients() {
+        List<IngredientDto> optionalDtos = service.findAll();
+        return ResponseEntity.ok(optionalDtos);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/ingredient")
