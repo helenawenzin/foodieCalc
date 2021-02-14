@@ -40,7 +40,7 @@ class RecipeIngredientControllerTest {
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(2L);
+        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(2L, "msk");
         RecipeIngredient recipeIngredient = createRecipeIngredient(recipe.getId(), recipeIngredientbody);
 
         RestAssured.given().contentType("application/json")
@@ -57,14 +57,14 @@ class RecipeIngredientControllerTest {
                 "1. Blanda. 2.Klicka ut.");
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(11L);
+        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(11L, "liter");
         RecipeIngredient i1 = createRecipeIngredient(recipe.getId(), recipeIngredientbody);
 
         JSONObject recipeBody2 = createJsonRecipeBody("Järpar", "22 st",
                 "1. Platta till. 2.Stek");
         Recipe recipe2 = createRecipe(recipeBody2);
 
-        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(22L);
+        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(22L, "tsk");
         RecipeIngredient i2 = createRecipeIngredient(recipe2.getId(), recipeIngredientbody2);
 
         RestAssured.given().contentType("application/json")
@@ -86,7 +86,7 @@ class RecipeIngredientControllerTest {
                 "1. Blanda. 2.Klicka ut.");
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(11L);
+        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(11L, "krm");
         RecipeIngredient i1 = createRecipeIngredient(recipe.getId(), recipeIngredientbody);
 
         JSONObject updateBody = new JSONObject()
@@ -108,7 +108,7 @@ class RecipeIngredientControllerTest {
                 "1. Blanda. 2.Fryyyys!");
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(3L);
+        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(3L, "dl");
         RecipeIngredient i1 = createRecipeIngredient(recipe.getId(), recipeIngredientbody);
 
         RestAssured.given().contentType("application/json")

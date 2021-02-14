@@ -45,10 +45,10 @@ public class TestControllerUtil {
                 .put("foodCategoryId", UUID.randomUUID());
     }
 
-    public static JSONObject createJsonRecipeIngredientBody(Long quantity) throws JSONException {
+    public static JSONObject createJsonRecipeIngredientBody(Long quantity, String measure) throws JSONException {
         return new JSONObject()
                 .put("ingredientId", UUID.randomUUID())
-                .put("measureId", UUID.randomUUID())
+                .put("measure", measure)
                 .put("quantity", quantity);
 
     }

@@ -38,7 +38,7 @@ public class RecipeIngredientService {
         // TODO: Fix this ugly hack
         RecipeIngredient storedRecipeIngredient = repository.findById(recipeIngredient.getId()).orElseThrow(() -> new RuntimeException("RecipeIngredient not found"));
         storedRecipeIngredient.setIngredientId(recipeIngredient.getIngredientId() == null ? storedRecipeIngredient.getIngredientId() : recipeIngredient.getIngredientId());
-        storedRecipeIngredient.setMeasureId(recipeIngredient.getMeasureId() == null ? storedRecipeIngredient.getMeasureId() : recipeIngredient.getMeasureId());
+        storedRecipeIngredient.setMeasure(recipeIngredient.getMeasure() == null ? storedRecipeIngredient.getMeasure() : recipeIngredient.getMeasure());
         storedRecipeIngredient.setQuantity(recipeIngredient.getQuantity() == null ? storedRecipeIngredient.getQuantity() : recipeIngredient.getQuantity());
 
         recipeService.getRecipe((recipeId)).orElseThrow(() -> new RuntimeException("Recipe not found."));

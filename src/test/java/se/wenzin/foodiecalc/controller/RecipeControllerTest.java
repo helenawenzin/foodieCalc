@@ -57,8 +57,8 @@ class RecipeControllerTest {
                 "1.Blanda alla ingredienser. 2.Ät smeten.");
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(5L);
-        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(10L);
+        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(5L, "msk");
+        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(10L, "tsk");
 
         createRecipeIngredient(recipe.getId(), recipeIngredientbody1);
         createRecipeIngredient(recipe.getId(), recipeIngredientbody2);
@@ -80,8 +80,8 @@ class RecipeControllerTest {
                 "1. Blanda alla ingredienser. 2. Stek");
         Recipe recipe1 = createRecipe(recipeBody);
 
-        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(1L);
-        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(5L);
+        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(1L, "tsk");
+        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(5L, "msk");
         createRecipeIngredient(recipe1.getId(), recipeIngredientbody1);
         createRecipeIngredient(recipe1.getId(), recipeIngredientbody2);
 
@@ -89,8 +89,8 @@ class RecipeControllerTest {
                 "Stek köttfärs! Fyll tortillan!");
         Recipe recipe2 = createRecipe(recipeBody2);
 
-        JSONObject recipeIngredientbody1_1 = createJsonRecipeIngredientBody(3L);
-        JSONObject recipeIngredientbody2_2 = createJsonRecipeIngredientBody(6L);
+        JSONObject recipeIngredientbody1_1 = createJsonRecipeIngredientBody(3L, "liter");
+        JSONObject recipeIngredientbody2_2 = createJsonRecipeIngredientBody(6L, "krm");
         createRecipeIngredient(recipe2.getId(), recipeIngredientbody1_1);
         createRecipeIngredient(recipe2.getId(), recipeIngredientbody2_2);
 
@@ -115,8 +115,8 @@ class RecipeControllerTest {
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
         Recipe recipe = createRecipe(recipeBody);
 
-        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(44L);
-        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(45L);
+        JSONObject recipeIngredientbody1 = createJsonRecipeIngredientBody(44L, "msk");
+        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(45L, "tsk");
 
         createRecipeIngredient(recipe.getId(), recipeIngredientbody1);
         createRecipeIngredient(recipe.getId(), recipeIngredientbody2);
