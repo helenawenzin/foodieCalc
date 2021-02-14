@@ -7,8 +7,10 @@ import se.wenzin.foodiecalc.dto.FoodCategoryDto;
 import se.wenzin.foodiecalc.model.FoodCategory;
 import se.wenzin.foodiecalc.repo.FoodCategoryRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodCategoryService {
@@ -35,6 +37,15 @@ public class FoodCategoryService {
         return Optional.of(foodCategoryDto);
     }
 
+    public List<FoodCategoryDto> findAll() {
+        List<FoodCategory> foodCategories = repository.findAll();
+
+        return foodCategories.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+    }
+
     private FoodCategory convertToEntity(FoodCategoryDto dto) {
         FoodCategory foodCategory = modelMapper.map(dto, FoodCategory.class);
         return foodCategory;
@@ -44,6 +55,5 @@ public class FoodCategoryService {
         FoodCategoryDto dto = modelMapper.map(foodCategory, FoodCategoryDto.class);
         return dto;
     }
-
 
 }

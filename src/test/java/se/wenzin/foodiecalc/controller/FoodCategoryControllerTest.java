@@ -1,6 +1,7 @@
 package se.wenzin.foodiecalc.controller;
 
 import io.restassured.RestAssured;
+import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,6 +54,17 @@ class FoodCategoryControllerTest {
                 .then()
                 .log().all()
                 .statusCode(404);
+    }
+
+    @Test
+    public void getFoodCategoriesEmpty() {
+        RestAssured.given().contentType("application/json")
+                .get("/foodcategories")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("isEmpty()", Matchers.is(true));
     }
 
     @Test

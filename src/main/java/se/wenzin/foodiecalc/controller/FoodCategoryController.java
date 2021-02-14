@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.http.ResponseEntity.notFound;
-
 @RestController
 public class FoodCategoryController {
 
@@ -34,15 +32,16 @@ public class FoodCategoryController {
     @RequestMapping(method = RequestMethod.GET, value = "/foodcategory/{id}")
     public ResponseEntity<FoodCategoryDto> getFoodCategoryById(@PathVariable("id") UUID id) {
         Optional<FoodCategoryDto> optionalDto = service.findById(id);
-        if(optionalDto.isEmpty()) {
+        if (optionalDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(optionalDto.get());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/foodcategories")
-    public List<FoodCategory> getAllFoodCategories() {
-        return repository.findAll();
+    public ResponseEntity<List<FoodCategoryDto>> getAllFoodCategories() {
+        List<FoodCategoryDto> optionalDtos = service.findAll();
+        return ResponseEntity.ok(optionalDtos);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/foodcategory")
