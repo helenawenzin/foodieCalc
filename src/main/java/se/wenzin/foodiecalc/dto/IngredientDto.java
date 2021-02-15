@@ -10,4 +10,12 @@ import java.util.UUID;
 public class IngredientDto {
     private UUID id;
     private String name;
+
+    private Long price_purchase;
+    private Long weight_purchase;
+    private Long amount_purchase;
+    private Long weight_dl;
+    private Long weight_msk;
+    private Long weight_tsk;
+    private Long weight_krm;
 }
