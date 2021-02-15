@@ -3,6 +3,8 @@ package se.wenzin.foodiecalc.controller;
 import io.restassured.RestAssured;
 import org.json.JSONException;
 import org.json.JSONObject;
+import se.wenzin.foodiecalc.dto.RecipeDto;
+import se.wenzin.foodiecalc.dto.RecipeIngredientDto;
 import se.wenzin.foodiecalc.model.Recipe;
 import se.wenzin.foodiecalc.model.RecipeIngredient;
 
@@ -10,7 +12,7 @@ import java.util.UUID;
 
 public class TestControllerUtil {
 
-    public static RecipeIngredient createRecipeIngredient(UUID recipeId, JSONObject recipeIngredient) {
+    public static RecipeIngredientDto createRecipeIngredient(UUID recipeId, JSONObject recipeIngredient) {
         return RestAssured.given().contentType("application/json")
                 .body(recipeIngredient.toString())
                 .pathParam("recipeId", recipeId)
@@ -21,10 +23,10 @@ public class TestControllerUtil {
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(RecipeIngredient.class);
+                .as(RecipeIngredientDto.class);
     }
 
-    public static Recipe createRecipe(JSONObject recipe) {
+    public static RecipeDto createRecipe(JSONObject recipe) {
         return RestAssured.given().contentType("application/json")
                 .body(recipe.toString())
                 .post("/recipe")
@@ -34,7 +36,7 @@ public class TestControllerUtil {
                 .statusCode(200)
                 .extract()
                 .body()
-                .as(Recipe.class);
+                .as(RecipeDto.class);
     }
 
     public static JSONObject createJsonRecipeBody(String title, String portionsOrAmount, String instructions) throws JSONException {
@@ -45,11 +47,12 @@ public class TestControllerUtil {
                 .put("foodCategoryId", UUID.randomUUID());
     }
 
-    public static JSONObject createJsonRecipeIngredientBody(Long quantity, String measure) throws JSONException {
+    public static JSONObject createJsonRecipeIngredientBody(Long quantity, String measure, UUID recipeId) throws JSONException {
         return new JSONObject()
                 .put("ingredientId", UUID.randomUUID())
                 .put("measure", measure)
-                .put("quantity", quantity);
+                .put("quantity", quantity)
+                .put("recipeId", recipeId);
 
     }
 }

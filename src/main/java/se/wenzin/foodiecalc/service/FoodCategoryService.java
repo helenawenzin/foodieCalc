@@ -21,7 +21,6 @@ public class FoodCategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
-
     public Optional<FoodCategoryDto> findById(UUID id) {
         Optional<FoodCategory> foodCategory = repository.findById(id);
         if (foodCategory.isEmpty()) {
