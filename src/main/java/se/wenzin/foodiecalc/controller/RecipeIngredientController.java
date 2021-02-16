@@ -34,15 +34,13 @@ public class RecipeIngredientController {
         return ResponseEntity.ok(service.getAllRecipeIngredients());
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/{recipeId}/recipeingredient")
-    public ResponseEntity<RecipeIngredientDto> createRecipeIngredient(@PathVariable(value = "recipeId") UUID recipeId,
-                                                                      @RequestBody RecipeIngredientDto recipeIngredientDto) throws Exception {
+    @RequestMapping(method = RequestMethod.POST, value = "/recipeingredient")
+    public ResponseEntity<RecipeIngredientDto> createRecipeIngredient(@RequestBody RecipeIngredientDto recipeIngredientDto) throws Exception {
         return ResponseEntity.ok(service.createRecipeIngredient(recipeIngredientDto));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{recipeId}/recipeingredient")
-    public ResponseEntity<RecipeIngredientDto> updateRecipeIngredient(@PathVariable(value = "recipeId") UUID recipeId,
-                                                                      @RequestBody RecipeIngredientDto recipeIngredientDto) throws Exception {
+    @RequestMapping(method = RequestMethod.PUT, value = "/recipeingredient")
+    public ResponseEntity<RecipeIngredientDto> updateRecipeIngredient(@RequestBody RecipeIngredientDto recipeIngredientDto) throws Exception {
         RecipeIngredientDto savedRecipeIngredientDto = service.updateRecipeIngredient(recipeIngredientDto);
         return ResponseEntity.ok(service.updateRecipeIngredient(recipeIngredientDto));
     }

@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Objects;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -41,4 +41,6 @@ public class RecipeIngredient implements Serializable {
     @JsonIgnore
     private Recipe recipe;
 
+    @Column(name = "COST")
+    private BigDecimal cost;
 }

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -26,24 +27,17 @@ public class Ingredient implements Serializable {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "PRICE_PURCHASE")
-    private Long price_purchase;
+    @Column(name = "PURCHASEPRICE")
+    private BigDecimal purchasePrice;
 
-    @Column(name = "WEIGHT_PURCHASE")
-    private Long weight_purchase;
+    @Column(name = "PURCHASEWEIGHT")
+    private Long purchaseWeight;
 
-    @Column(name = "AMOUNT_PURCHASE")
-    private Long amount_purchase;
+    @Column(name = "PURCHASEQUANTITY")
+    private Long purchaseQuantity;
 
-    @Column(name = "WEIGHT_DL")
-    private Long weight_dl;
+    @Column(name = "ONEDECILITERWEIGHT")
+    private Long oneDeciliterWeight;
 
-    @Column(name = "WEIGHT_MSK")
-    private Long weight_msk;
 
-    @Column(name = "WEIGHT_TSK")
-    private Long weight_tsk;
-
-    @Column(name = "WEIGHT_KRM")
-    private Long weight_krm;
 }

@@ -3,6 +3,7 @@ package se.wenzin.foodiecalc.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -14,4 +15,5 @@ public class RecipeIngredientDto {
     private String measure;
     private Long quantity;
     private UUID recipeId;
+    private BigDecimal cost;
 }

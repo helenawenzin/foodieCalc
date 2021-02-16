@@ -3,20 +3,32 @@ package se.wenzin.foodiecalc.controller;
 import io.restassured.RestAssured;
 import org.json.JSONException;
 import org.json.JSONObject;
+import se.wenzin.foodiecalc.dto.IngredientDto;
 import se.wenzin.foodiecalc.dto.RecipeDto;
 import se.wenzin.foodiecalc.dto.RecipeIngredientDto;
-import se.wenzin.foodiecalc.model.Recipe;
-import se.wenzin.foodiecalc.model.RecipeIngredient;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class TestControllerUtil {
 
-    public static RecipeIngredientDto createRecipeIngredient(UUID recipeId, JSONObject recipeIngredient) {
+    public static IngredientDto createIngredient(JSONObject ingredient) {
+        return RestAssured.given().contentType("application/json")
+                .body(ingredient.toString())
+                .post("/ingredient")
+                .then()
+                .log()
+                .all()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(IngredientDto.class);
+    }
+
+    public static RecipeIngredientDto createRecipeIngredient(JSONObject recipeIngredient) {
         return RestAssured.given().contentType("application/json")
                 .body(recipeIngredient.toString())
-                .pathParam("recipeId", recipeId)
-                .post("/{recipeId}/recipeingredient")
+                .post("/recipeingredient")
                 .then()
                 .log()
                 .all()
@@ -39,6 +51,15 @@ public class TestControllerUtil {
                 .as(RecipeDto.class);
     }
 
+    public static JSONObject createJsonIngredientBody(String name, BigDecimal purchasePrice, Long purchaseWeight, Long purchaseQuantity, Long oneDeciliterWeight) throws JSONException {
+        return new JSONObject()
+                .put("name", name)
+                .put("purchasePrice", purchasePrice)
+                .put("purchaseWeight", purchaseWeight)
+                .put("purchaseQuantity", purchaseQuantity)
+                .put("oneDeciliterWeight", oneDeciliterWeight);
+    }
+
     public static JSONObject createJsonRecipeBody(String title, String portionsOrAmount, String instructions) throws JSONException {
         return new JSONObject()
                 .put("title", title)
@@ -47,9 +68,9 @@ public class TestControllerUtil {
                 .put("foodCategoryId", UUID.randomUUID());
     }
 
-    public static JSONObject createJsonRecipeIngredientBody(Long quantity, String measure, UUID recipeId) throws JSONException {
+    public static JSONObject createJsonRecipeIngredientBody(UUID ingredientId, Long quantity, String measure, UUID recipeId) throws JSONException {
         return new JSONObject()
-                .put("ingredientId", UUID.randomUUID())
+                .put("ingredientId", ingredientId)
                 .put("measure", measure)
                 .put("quantity", quantity)
                 .put("recipeId", recipeId);

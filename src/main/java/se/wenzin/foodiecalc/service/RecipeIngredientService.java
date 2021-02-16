@@ -3,12 +3,14 @@ package se.wenzin.foodiecalc.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.wenzin.foodiecalc.dto.IngredientDto;
 import se.wenzin.foodiecalc.dto.RecipeDto;
 import se.wenzin.foodiecalc.dto.RecipeIngredientDto;
 import se.wenzin.foodiecalc.model.Recipe;
 import se.wenzin.foodiecalc.model.RecipeIngredient;
 import se.wenzin.foodiecalc.repo.RecipeIngredientRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +24,9 @@ public class RecipeIngredientService {
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private IngredientService ingredientService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -44,25 +49,24 @@ public class RecipeIngredientService {
     }
 
     public RecipeIngredientDto createRecipeIngredient(RecipeIngredientDto recipeIngredientDto) throws Exception {
-        //RecipeDto recipeDto = recipeService.getRecipeById((recipeId)).orElseThrow(() -> new RuntimeException("Recipe not found."));
-        RecipeIngredient savedRecipeIngredient = repository.save(convertToEntity(recipeIngredientDto));
+
+        RecipeIngredientDto recipeIngredientDtoWithCost = calculateCostForRecipeIngredient(recipeIngredientDto);
+
+        RecipeIngredient savedRecipeIngredient = repository.save(convertToEntity(recipeIngredientDtoWithCost));
         return convertToDto(savedRecipeIngredient);
     }
 
     public RecipeIngredientDto updateRecipeIngredient(RecipeIngredientDto recipeIngredientDto) throws Exception {
         // TODO: Fix this ugly hack
-        //Is this necessary? :
-        RecipeIngredient recipeIngredientConverted = convertToEntity(recipeIngredientDto);
 
-        RecipeIngredient storedRecipeIngredient = repository.findById(recipeIngredientConverted.getId()).orElseThrow(() -> new RuntimeException("RecipeIngredient not found"));
-        storedRecipeIngredient.setIngredientId(recipeIngredientConverted.getIngredientId() == null ? storedRecipeIngredient.getIngredientId() : recipeIngredientConverted.getIngredientId());
-        storedRecipeIngredient.setMeasure(recipeIngredientConverted.getMeasure() == null ? storedRecipeIngredient.getMeasure() : recipeIngredientConverted.getMeasure());
-        storedRecipeIngredient.setQuantity(recipeIngredientConverted.getQuantity() == null ? storedRecipeIngredient.getQuantity() : recipeIngredientConverted.getQuantity());
+        RecipeIngredient storedRecipeIngredient = repository.findById(recipeIngredientDto.getId()).orElseThrow(() -> new RuntimeException("RecipeIngredient not found"));
+        storedRecipeIngredient.setIngredientId(recipeIngredientDto.getIngredientId() == null ? storedRecipeIngredient.getIngredientId() : recipeIngredientDto.getIngredientId());
+        storedRecipeIngredient.setMeasure(recipeIngredientDto.getMeasure() == null ? storedRecipeIngredient.getMeasure() : recipeIngredientDto.getMeasure());
+        storedRecipeIngredient.setQuantity(recipeIngredientDto.getQuantity() == null ? storedRecipeIngredient.getQuantity() : recipeIngredientDto.getQuantity());
 
-        //recipeService.getRecipeById((recipeId)).orElseThrow(() -> new RuntimeException("Recipe not found."));
-        //storedRecipeIngredient.setRecipe(recipeIngredientDto.getRecipe() == null ? storedRecipeIngredient.getRecipe() : recipeIngredientDto.getRecipe());
+        RecipeIngredientDto recipeIngredientDtoWithCost = calculateCostForRecipeIngredient(convertToDto(storedRecipeIngredient));
 
-        RecipeIngredient recipeIngredient = repository.save(storedRecipeIngredient);
+        RecipeIngredient recipeIngredient = repository.save(convertToEntity(recipeIngredientDtoWithCost));
         return convertToDto(recipeIngredient);
     }
 
@@ -88,5 +92,42 @@ public class RecipeIngredientService {
     private RecipeDto convertRecipeToDto(Recipe recipe) {
         RecipeDto dto = modelMapper.map(recipe, RecipeDto.class);
         return dto;
+    }
+
+    private RecipeIngredientDto calculateCostForRecipeIngredient(RecipeIngredientDto recipeIngredientDto) throws Exception {
+
+        Optional<IngredientDto> ingredientDto = ingredientService.findById(recipeIngredientDto.getIngredientId());
+        if (ingredientDto.isEmpty()) {
+            throw new Exception("Ingredient not found");
+        }
+
+        BigDecimal purchasePrice = ingredientDto.get().getPurchasePrice();
+        Long purchaseQuantity = ingredientDto.get().getPurchaseQuantity();
+        Long quantity = recipeIngredientDto.getQuantity();
+
+        BigDecimal finalCost = null;
+
+        if (!(purchaseQuantity == null)) {
+            finalCost = purchasePrice
+                    .divide(new BigDecimal(purchaseQuantity))
+                    .multiply(new BigDecimal(quantity));
+        } else {
+
+            Long weightInDl = ingredientDto.get().getOneDeciliterWeight();
+            Long weightForThisIngredient = switch (recipeIngredientDto.getMeasure()) {
+                case "dl" -> weightInDl;
+                case "msk" -> weightInDl / 6;
+                case "tsk" -> weightInDl / 20;
+                case "krm" -> weightInDl / 60;
+                default -> throw new IllegalStateException("Unexpected value: " + recipeIngredientDto.getMeasure());
+            };
+
+            finalCost = purchasePrice
+                    .divide(new BigDecimal(ingredientDto.get().getPurchaseWeight()))
+                    .multiply(new BigDecimal(quantity * weightForThisIngredient));
+        }
+
+        recipeIngredientDto.setCost(finalCost);
+        return recipeIngredientDto;
     }
 }
