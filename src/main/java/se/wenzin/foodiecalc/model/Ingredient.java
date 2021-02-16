@@ -30,14 +30,10 @@ public class Ingredient implements Serializable {
     @Column(name = "PURCHASEPRICE")
     private BigDecimal purchasePrice;
 
-    @Column(name = "PURCHASEWEIGHT")
-    private Long purchaseWeight;
-
-    @Column(name = "PURCHASEQUANTITY")
-    private Long purchaseQuantity;
+    @Column(name = "PURCHASEWEIGHTORQUANTITY")
+    private Long purchaseWeightOrQuantity;
 
     @Column(name = "ONEDECILITERWEIGHT")
     private Long oneDeciliterWeight;
-
 
 }

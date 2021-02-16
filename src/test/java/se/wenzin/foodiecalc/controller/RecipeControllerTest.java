@@ -64,16 +64,16 @@ class RecipeControllerTest {
                 "1.Blanda alla ingredienser. 2.Ät smeten.");
         RecipeDto recipeDto = createRecipe(recipeBody);
 
-        JSONObject ingredientBody = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), null,
-                20L, null);
+        JSONObject ingredientBody = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), 20L,
+                null);
         IngredientDto ingredientDto1 = createIngredient(ingredientBody);
 
         JSONObject ingredientBody2 = createJsonIngredientBody("Vetemjöl", BigDecimal.valueOf(40), 1000L,
-                null, 65L);
+                65L);
         IngredientDto ingredientDto2 = createIngredient(ingredientBody2);
 
-        JSONObject recipeIngredientBody1 = createJsonRecipeIngredientBody(ingredientDto1.getId(), 5L, "msk", recipeDto.getId());
-        JSONObject recipeIngredientBody2 = createJsonRecipeIngredientBody(ingredientDto2.getId(), 10L, "tsk", recipeDto.getId());
+        JSONObject recipeIngredientBody1 = createJsonRecipeIngredientBody(ingredientDto1.getId(), 5L, "st", recipeDto.getId());
+        JSONObject recipeIngredientBody2 = createJsonRecipeIngredientBody(ingredientDto2.getId(), 10L, "dl", recipeDto.getId());
 
         createRecipeIngredient(recipeIngredientBody1);
         createRecipeIngredient(recipeIngredientBody2);
@@ -95,15 +95,15 @@ class RecipeControllerTest {
                 "1. Blanda alla ingredienser. 2. Stek");
         RecipeDto recipeDto1 = createRecipe(recipeBody);
 
-        JSONObject ingredientBody = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), null,
-                20L, null);
+        JSONObject ingredientBody = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), 20L,
+                null);
         IngredientDto ingredientDto1 = createIngredient(ingredientBody);
 
         JSONObject ingredientBody2 = createJsonIngredientBody("Vetemjöl", BigDecimal.valueOf(40), 1000L,
-                null, 65L);
+                65L);
         IngredientDto ingredientDto2 = createIngredient(ingredientBody2);
 
-        JSONObject recipeIngredientBody1 = createJsonRecipeIngredientBody(ingredientDto1.getId(), 1L, "tsk", recipeDto1.getId());
+        JSONObject recipeIngredientBody1 = createJsonRecipeIngredientBody(ingredientDto1.getId(), 1L, "st", recipeDto1.getId());
         JSONObject recipeIngredientBody2 = createJsonRecipeIngredientBody(ingredientDto2.getId(), 5L, "msk", recipeDto1.getId());
         createRecipeIngredient(recipeIngredientBody1);
         createRecipeIngredient(recipeIngredientBody2);
@@ -112,15 +112,15 @@ class RecipeControllerTest {
                 "Stek köttfärs! Fyll tortillan!");
         RecipeDto recipeDto2 = createRecipe(recipeBody2);
 
-        JSONObject ingredientBody3 = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), null,
-                20L, null);
+        JSONObject ingredientBody3 = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), 20L,
+                null);
         IngredientDto ingredientDto3 = createIngredient(ingredientBody3);
 
         JSONObject ingredientBody4 = createJsonIngredientBody("Vetemjöl", BigDecimal.valueOf(40), 1000L,
-                null, 65L);
+                65L);
         IngredientDto ingredientDto4 = createIngredient(ingredientBody4);
 
-        JSONObject recipeIngredientBody1_1 = createJsonRecipeIngredientBody(ingredientDto3.getId(), 3L, "liter", recipeDto2.getId());
+        JSONObject recipeIngredientBody1_1 = createJsonRecipeIngredientBody(ingredientDto3.getId(), 3L, "st", recipeDto2.getId());
         JSONObject recipeIngredientBody2_2 = createJsonRecipeIngredientBody(ingredientDto4.getId(), 6L, "krm", recipeDto2.getId());
         createRecipeIngredient(recipeIngredientBody1_1);
         createRecipeIngredient(recipeIngredientBody2_2);
@@ -146,15 +146,15 @@ class RecipeControllerTest {
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
         RecipeDto recipeDto = createRecipe(recipeBody);
 
-        JSONObject ingredientBody1 = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), null,
-                20L, null);
+        JSONObject ingredientBody1 = createJsonIngredientBody("Ägg", BigDecimal.valueOf(40), 20L,
+                null);
         IngredientDto ingredientDto1 = createIngredient(ingredientBody1);
 
         JSONObject ingredientBody2 = createJsonIngredientBody("Vetemjöl", BigDecimal.valueOf(40), 1000L,
-                null, 65L);
+                65L);
         IngredientDto ingredientDto2 = createIngredient(ingredientBody2);
 
-        JSONObject recipeIngredientBody1 = createJsonRecipeIngredientBody(ingredientDto1.getId(), 44L, "msk", recipeDto.getId());
+        JSONObject recipeIngredientBody1 = createJsonRecipeIngredientBody(ingredientDto1.getId(), 44L, "st", recipeDto.getId());
         JSONObject recipeIngredientBody2 = createJsonRecipeIngredientBody(ingredientDto2.getId(), 45L, "tsk", recipeDto.getId());
 
         createRecipeIngredient(recipeIngredientBody1);

@@ -13,8 +13,7 @@ public class IngredientDto {
     private String name;
 
     private BigDecimal purchasePrice;
-    private Long purchaseWeight;
-    private Long purchaseQuantity;
+    private Long purchaseWeightOrQuantity;
 
     //all vikt är i gram
     private Long oneDeciliterWeight;

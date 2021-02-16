@@ -4,9 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.wenzin.foodiecalc.dto.IngredientDto;
-import se.wenzin.foodiecalc.dto.RecipeDto;
 import se.wenzin.foodiecalc.dto.RecipeIngredientDto;
-import se.wenzin.foodiecalc.model.Recipe;
 import se.wenzin.foodiecalc.model.RecipeIngredient;
 import se.wenzin.foodiecalc.repo.RecipeIngredientRepository;
 
@@ -75,23 +73,11 @@ public class RecipeIngredientService {
     }
 
     private RecipeIngredient convertToEntity(RecipeIngredientDto dto) {
-        RecipeIngredient recipeIngredient = modelMapper.map(dto, RecipeIngredient.class);
-        return recipeIngredient;
+        return modelMapper.map(dto, RecipeIngredient.class);
     }
 
     private RecipeIngredientDto convertToDto(RecipeIngredient recipeIngredient) {
-        RecipeIngredientDto dto = modelMapper.map(recipeIngredient, RecipeIngredientDto.class);
-        return dto;
-    }
-
-    private Recipe convertRecipeToEntity(RecipeDto dto) {
-        Recipe recipe = modelMapper.map(dto, Recipe.class);
-        return recipe;
-    }
-
-    private RecipeDto convertRecipeToDto(Recipe recipe) {
-        RecipeDto dto = modelMapper.map(recipe, RecipeDto.class);
-        return dto;
+        return modelMapper.map(recipeIngredient, RecipeIngredientDto.class);
     }
 
     private RecipeIngredientDto calculateCostForRecipeIngredient(RecipeIngredientDto recipeIngredientDto) throws Exception {
@@ -101,32 +87,25 @@ public class RecipeIngredientService {
             throw new Exception("Ingredient not found");
         }
 
-        BigDecimal purchasePrice = ingredientDto.get().getPurchasePrice();
-        Long purchaseQuantity = ingredientDto.get().getPurchaseQuantity();
-        Long quantity = recipeIngredientDto.getQuantity();
-
         BigDecimal finalCost = null;
 
-        if (!(purchaseQuantity == null)) {
-            finalCost = purchasePrice
-                    .divide(new BigDecimal(purchaseQuantity))
-                    .multiply(new BigDecimal(quantity));
-        } else {
+        Long weightInDl = ingredientDto.get().getOneDeciliterWeight();
+        Long weightOrQuantityForThisIngredient = switch (recipeIngredientDto.getMeasure()) {
+            case "l" -> weightInDl * 10;
+            case "dl" -> weightInDl;
+            case "msk" -> weightInDl / 6;
+            case "tsk" -> weightInDl / 20;
+            case "krm", "nypa" -> weightInDl / 60;
+            case "gr", "st" -> 1L;
+            default -> throw new IllegalStateException("Unexpected value: " + recipeIngredientDto.getMeasure());
+        };
 
-            Long weightInDl = ingredientDto.get().getOneDeciliterWeight();
-            Long weightForThisIngredient = switch (recipeIngredientDto.getMeasure()) {
-                case "dl" -> weightInDl;
-                case "msk" -> weightInDl / 6;
-                case "tsk" -> weightInDl / 20;
-                case "krm" -> weightInDl / 60;
-                case "gr" -> 1L;
-                default -> throw new IllegalStateException("Unexpected value: " + recipeIngredientDto.getMeasure());
-            };
+        BigDecimal purchasePrice = ingredientDto.get().getPurchasePrice();
+        Long quantity = recipeIngredientDto.getQuantity();
 
-            finalCost = purchasePrice
-                    .divide(new BigDecimal(ingredientDto.get().getPurchaseWeight()))
-                    .multiply(new BigDecimal(quantity * weightForThisIngredient));
-        }
+        finalCost = purchasePrice
+                .divide(new BigDecimal(ingredientDto.get().getPurchaseWeightOrQuantity()))
+                .multiply(new BigDecimal(quantity * weightOrQuantityForThisIngredient));
 
         recipeIngredientDto.setCost(finalCost);
         return recipeIngredientDto;

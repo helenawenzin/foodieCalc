@@ -51,12 +51,11 @@ public class TestControllerUtil {
                 .as(RecipeDto.class);
     }
 
-    public static JSONObject createJsonIngredientBody(String name, BigDecimal purchasePrice, Long purchaseWeight, Long purchaseQuantity, Long oneDeciliterWeight) throws JSONException {
+    public static JSONObject createJsonIngredientBody(String name, BigDecimal purchasePrice, Long purchaseWeightOrQuantity, Long oneDeciliterWeight) throws JSONException {
         return new JSONObject()
                 .put("name", name)
                 .put("purchasePrice", purchasePrice)
-                .put("purchaseWeight", purchaseWeight)
-                .put("purchaseQuantity", purchaseQuantity)
+                .put("purchaseWeightOrQuantity", purchaseWeightOrQuantity)
                 .put("oneDeciliterWeight", oneDeciliterWeight);
     }
 
