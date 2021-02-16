@@ -10,7 +10,8 @@ public enum Measure {
     MSK("msk", "matsked"),
     TSK("tsk", "tesked"),
     KRM("krm", "kryddmått"),
-    NYPA("nypa", "nypa");
+    NYPA("nypa", "nypa"),
+    GRAM("gr", "gram");
 
     private final String shortName;
     private final String longName;

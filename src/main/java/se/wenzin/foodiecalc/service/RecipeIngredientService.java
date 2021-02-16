@@ -119,6 +119,7 @@ public class RecipeIngredientService {
                 case "msk" -> weightInDl / 6;
                 case "tsk" -> weightInDl / 20;
                 case "krm" -> weightInDl / 60;
+                case "gr" -> 1L;
                 default -> throw new IllegalStateException("Unexpected value: " + recipeIngredientDto.getMeasure());
             };
 

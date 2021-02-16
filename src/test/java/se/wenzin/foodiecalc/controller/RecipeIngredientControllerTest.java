@@ -43,7 +43,7 @@ class RecipeIngredientControllerTest {
 
 
     @Test
-    public void getRecipeIngredientByIdWithCostAndPurchaseWeight() throws JSONException {
+    public void getRecipeIngredientByIdWithPurchaseWeight() throws JSONException {
 
         JSONObject recipeBody = createJsonRecipeBody("Chokladbollar", "20 st",
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
@@ -53,8 +53,8 @@ class RecipeIngredientControllerTest {
                 null, 35L);
         IngredientDto ingredientDto = createIngredient(ingredientBody);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(ingredientDto.getId(), 2L, "dl", recipeDto.getId());
-        RecipeIngredientDto recipeIngredientDto = createRecipeIngredient(recipeIngredientbody);
+        JSONObject recipeIngredientBody = createJsonRecipeIngredientBody(ingredientDto.getId(), 2L, "dl", recipeDto.getId());
+        RecipeIngredientDto recipeIngredientDto = createRecipeIngredient(recipeIngredientBody);
 
         RestAssured.given().contentType("application/json")
                 .get("/recipeingredient/" + recipeIngredientDto.getId())
@@ -65,7 +65,7 @@ class RecipeIngredientControllerTest {
     }
 
     @Test
-    public void getRecipeIngredientByIdWithCostAndPurchaseQuantity() throws JSONException {
+    public void getRecipeIngredientByIdWithPurchaseQuantity() throws JSONException {
 
         JSONObject recipeBody = createJsonRecipeBody("Chokladbollar", "20 st",
                 "1. Blanda alla ingredienser. 2.Rulla bollar.");
@@ -75,8 +75,8 @@ class RecipeIngredientControllerTest {
                 20L, null);
         IngredientDto ingredientDto = createIngredient(ingredientBody);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(ingredientDto.getId(), 2L, null, recipeDto.getId());
-        RecipeIngredientDto recipeIngredientDto = createRecipeIngredient(recipeIngredientbody);
+        JSONObject recipeIngredientBody = createJsonRecipeIngredientBody(ingredientDto.getId(), 2L, null, recipeDto.getId());
+        RecipeIngredientDto recipeIngredientDto = createRecipeIngredient(recipeIngredientBody);
 
         RestAssured.given().contentType("application/json")
                 .get("/recipeingredient/" + recipeIngredientDto.getId())
@@ -84,6 +84,28 @@ class RecipeIngredientControllerTest {
                 .log().all()
                 .statusCode(200)
                 .body("cost", CoreMatchers.is(4f));
+    }
+
+    @Test
+    public void getRecipeIngredientByIdWithGram() throws JSONException {
+
+        JSONObject recipeBody = createJsonRecipeBody("Chokladbollar", "20 st",
+                "1. Blanda alla ingredienser. 2.Rulla bollar.");
+        RecipeDto recipeDto = createRecipe(recipeBody);
+
+        JSONObject ingredientBody = createJsonIngredientBody("Smör", BigDecimal.valueOf(30), 500L,
+                null, null);
+        IngredientDto ingredientDto = createIngredient(ingredientBody);
+
+        JSONObject recipeIngredientBody = createJsonRecipeIngredientBody(ingredientDto.getId(), 200L, "gr", recipeDto.getId());
+        RecipeIngredientDto recipeIngredientDto = createRecipeIngredient(recipeIngredientBody);
+
+        RestAssured.given().contentType("application/json")
+                .get("/recipeingredient/" + recipeIngredientDto.getId())
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("cost", CoreMatchers.is(12f));
     }
 
     @Test
@@ -97,8 +119,8 @@ class RecipeIngredientControllerTest {
                 20L, null);
         IngredientDto ingredientDto = createIngredient(ingredientBody1);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(ingredientDto.getId(), 11L, null, recipeDto.getId());
-        RecipeIngredientDto recipeIngredientDto1 = createRecipeIngredient(recipeIngredientbody);
+        JSONObject recipeIngredientBody = createJsonRecipeIngredientBody(ingredientDto.getId(), 11L, null, recipeDto.getId());
+        createRecipeIngredient(recipeIngredientBody);
 
         JSONObject recipeBody2 = createJsonRecipeBody("Järpar", "22 st",
                 "1. Platta till. 2.Stek");
@@ -108,8 +130,8 @@ class RecipeIngredientControllerTest {
                 null, 65L);
         IngredientDto ingredientDto2 = createIngredient(ingredientBody2);
 
-        JSONObject recipeIngredientbody2 = createJsonRecipeIngredientBody(ingredientDto2.getId(), 22L, "dl", recipeDto2.getId());
-        RecipeIngredientDto recipeIngredientDto2 = createRecipeIngredient(recipeIngredientbody2);
+        JSONObject recipeIngredientBody2 = createJsonRecipeIngredientBody(ingredientDto2.getId(), 22L, "dl", recipeDto2.getId());
+        createRecipeIngredient(recipeIngredientBody2);
 
         RestAssured.given().contentType("application/json")
                 .get("/recipeingredients")
@@ -132,8 +154,8 @@ class RecipeIngredientControllerTest {
                 20L, null);
         IngredientDto ingredientDto = createIngredient(ingredientBody);
 
-        JSONObject recipeIngredientbody = createJsonRecipeIngredientBody(ingredientDto.getId(), 11L, null, recipeDto.getId());
-        RecipeIngredientDto recipeIngredientDto = createRecipeIngredient(recipeIngredientbody);
+        JSONObject recipeIngredientBody = createJsonRecipeIngredientBody(ingredientDto.getId(), 11L, null, recipeDto.getId());
+        RecipeIngredientDto recipeIngredientDto = createRecipeIngredient(recipeIngredientBody);
 
         JSONObject updateBody = new JSONObject()
                 .put("id", recipeIngredientDto.getId())
