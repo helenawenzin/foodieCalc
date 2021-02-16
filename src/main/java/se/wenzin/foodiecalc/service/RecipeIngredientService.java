@@ -87,25 +87,7 @@ public class RecipeIngredientService {
             throw new Exception("Ingredient not found");
         }
 
-        BigDecimal finalCost = null;
-
-        Long weightInDl = ingredientDto.get().getOneDeciliterWeight();
-        Long weightOrQuantityForThisIngredient = switch (recipeIngredientDto.getMeasure()) {
-            case "l" -> weightInDl * 10;
-            case "dl" -> weightInDl;
-            case "msk" -> weightInDl / 6;
-            case "tsk" -> weightInDl / 20;
-            case "krm", "nypa" -> weightInDl / 60;
-            case "gr", "st" -> 1L;
-            default -> throw new IllegalStateException("Unexpected value: " + recipeIngredientDto.getMeasure());
-        };
-
-        BigDecimal purchasePrice = ingredientDto.get().getPurchasePrice();
-        Long quantity = recipeIngredientDto.getQuantity();
-
-        finalCost = purchasePrice
-                .divide(new BigDecimal(ingredientDto.get().getPurchaseWeightOrQuantity()))
-                .multiply(new BigDecimal(quantity * weightOrQuantityForThisIngredient));
+        BigDecimal finalCost = RecipeIngredientCostCalculator.calculate(recipeIngredientDto, ingredientDto.get());
 
         recipeIngredientDto.setCost(finalCost);
         return recipeIngredientDto;
