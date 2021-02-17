@@ -25,7 +25,7 @@ public class RecipeIngredientCostCalculator {
         Long quantity = recipeIngredientDto.getQuantity();
 
         return purchasePrice
-                .divide(new BigDecimal(ingredientDto.getPurchaseWeightOrQuantity()), 2, RoundingMode.HALF_UP)
-                .multiply(new BigDecimal(quantity * weightOrQuantityForThisIngredient));
+                .divide(new BigDecimal(ingredientDto.getPurchaseWeightOrQuantity()))
+                .multiply(new BigDecimal(quantity * weightOrQuantityForThisIngredient)).setScale(2, RoundingMode.HALF_UP);
     }
 }
