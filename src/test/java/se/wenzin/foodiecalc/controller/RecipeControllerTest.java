@@ -1,6 +1,7 @@
 package se.wenzin.foodiecalc.controller;
 
 import io.restassured.RestAssured;
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +57,7 @@ class RecipeControllerTest {
                 .statusCode(200)
                 .assertThat()
                 .body(containsString("1.Blanda alla ingredienser. 2.Rulla bollar"))
-                .and().body(containsString(recipeDto.getId().toString()));
+                .body(containsString(recipeDto.getId().toString()));
     }
 
     @Test
@@ -87,7 +88,8 @@ class RecipeControllerTest {
                 .statusCode(200)
                 .assertThat()
                 .body(containsString("1.Blanda alla ingredienser. 2.Ät smeten."))
-                .and().body(containsString(recipeDto.getId().toString()));
+                .body(containsString(recipeDto.getId().toString()))
+                .body("totalCost", CoreMatchers.is(36f));
     }
 
     @Test
@@ -135,11 +137,11 @@ class RecipeControllerTest {
                 .assertThat()
                 .body("size()", is(2))
                 .body(containsString("Tacos"))
-                .and().body(containsString("Köttbullar"))
-                .and().body(containsString("1. Blanda alla ingredienser. 2. Stek"))
-                .and().body(containsString("Stek köttfärs! Fyll tortillan!"))
-                .and().body(containsString(recipeDto1.getId().toString()))
-                .and().body(containsString(recipeDto2.getId().toString()));
+                .body(containsString("Köttbullar"))
+                .body(containsString("1. Blanda alla ingredienser. 2. Stek"))
+                .body(containsString("Stek köttfärs! Fyll tortillan!"))
+                .body(containsString(recipeDto1.getId().toString()))
+                .body(containsString(recipeDto2.getId().toString()));
     }
 
     @Test
@@ -186,7 +188,8 @@ class RecipeControllerTest {
                 .statusCode(200)
                 .assertThat()
                 .body(containsString("Gör om, gör rätt!"))
-                .and().body(containsString("Tekakor"));
+                .body(containsString("Tekakor"))
+                .body("totalCost", CoreMatchers.is(93.40f));
     }
 
     @Test
