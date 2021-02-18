@@ -18,6 +18,7 @@ import se.wenzin.foodiecalc.dto.FoodCategoryDto;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -44,7 +45,9 @@ class FoodCategoryControllerTest {
                 .get("/foodcategory/" + foodCategoryDto.getId())
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .assertThat()
+                .body(containsString("breakfast"));
     }
 
     @Test
@@ -85,6 +88,7 @@ class FoodCategoryControllerTest {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
+                .body("size()", is(2))
                 .body(containsString("lunch"))
                 .and().body(containsString("breakfast"))
                 .and().body(containsString(f1.getId().toString()))
@@ -105,7 +109,9 @@ class FoodCategoryControllerTest {
                 .body(updateBody.toString())
                 .put("/foodcategory")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .assertThat()
+                .body(containsString("lunch"));
     }
 
     @Test

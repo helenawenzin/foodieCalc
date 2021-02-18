@@ -2,6 +2,7 @@ package se.wenzin.foodiecalc.controller;
 
 import io.restassured.RestAssured;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,7 @@ import se.wenzin.foodiecalc.dto.RecipeIngredientDto;
 import java.math.BigDecimal;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static se.wenzin.foodiecalc.controller.TestControllerUtil.createIngredient;
 import static se.wenzin.foodiecalc.controller.TestControllerUtil.createJsonIngredientBody;
 import static se.wenzin.foodiecalc.controller.TestControllerUtil.createJsonRecipeBody;
@@ -59,7 +61,8 @@ class RecipeIngredientControllerTest {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("cost", CoreMatchers.is(14f));
+                .body("cost", CoreMatchers.is(14f))
+                .body(containsString("dl"));
     }
 
     @Test
@@ -137,8 +140,20 @@ class RecipeIngredientControllerTest {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
+                .body("size()", is(2))
                 .body(containsString("11"))
                 .body(containsString("22"));
+    }
+
+    @Test
+    public void getRecipeIngredientsEmpty() {
+        RestAssured.given().contentType("application/json")
+                .get("/recipeingredients")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("isEmpty()", Matchers.is(true));
     }
 
     @Test

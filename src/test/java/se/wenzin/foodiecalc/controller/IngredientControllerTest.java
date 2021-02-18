@@ -18,6 +18,7 @@ import se.wenzin.foodiecalc.dto.IngredientDto;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -44,7 +45,8 @@ class IngredientControllerTest {
                 .get("/ingredient/" + ingredientDto.getId())
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .body(containsString("vaniljsocker"));;
     }
 
     @Test
@@ -86,6 +88,7 @@ class IngredientControllerTest {
                 .log().all()
                 .statusCode(200)
                 .assertThat()
+                .body("size()", is(2))
                 .body(containsString("vaniljsocker"))
                 .and().body(containsString("kakao"))
                 .and().body(containsString(i1.getId().toString()))
@@ -106,7 +109,9 @@ class IngredientControllerTest {
                 .body(updateBody.toString())
                 .put("/ingredient")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .assertThat()
+                .body(containsString("bikarbonat"));;
     }
 
     @Test
