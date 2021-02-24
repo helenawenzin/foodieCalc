@@ -1,13 +1,12 @@
-import logo from './logo.svg';
+ import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+         Welcome to foodieCalc!
         </p>
         <a
           className="App-link"
@@ -15,7 +14,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Link to something
         </a>
       </header>
     </div>
