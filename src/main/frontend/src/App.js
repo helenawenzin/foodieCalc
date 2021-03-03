@@ -1,24 +1,29 @@
 
-import './App.css';
+//import './App.css';
+import React, {Component} from 'react';
+import FoodCategories from './components/foodcategories';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-         Welcome to foodieCalc!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Link to something something
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends Component {
+
+      state = {
+        foodCategories: []
+      }
+
+      componentDidMount() {
+              fetch('http://localhost:8080/foodcategories')
+              .then(res => res.json())
+              .then((data) => {
+                console.log(data);
+                this.setState({ foodCategories: data })
+              })
+              .catch(console.log)
+            }
+
+      render () {
+        return (
+            <FoodCategories foodCategories={this.state.foodCategories} />
+        );
+      }
+    }
 
 export default App;
