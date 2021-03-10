@@ -24,8 +24,8 @@ export const SidebarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Lägga till recept',
-        path: '/addrecipes',
+        title: 'Lägga till',
+        path: '/adding',
         icon: <AiIcons.AiOutlineFileAdd />,
         cName: 'nav-text'
     }

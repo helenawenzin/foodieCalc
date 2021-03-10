@@ -10,7 +10,8 @@
 
 .home,
 .costs,
-.recipes {
+.recipes,
+.adding {
     display: flex;
     height: 90vh;
     align-items: center;
