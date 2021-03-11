@@ -11,7 +11,10 @@
 .home,
 .costs,
 .recipes,
-.adding {
+.adding,
+.addingRecipe,
+.addingCategory,
+.addingIngredient {
     display: flex;
     height: 90vh;
     align-items: center;

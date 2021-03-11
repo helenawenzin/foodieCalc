@@ -1,3 +1,5 @@
+
+/*Nav */
 .navbar {
     background-color: #575454;
     height: 80px;
@@ -6,12 +8,18 @@
     align-items: center;
 }
 
+/* NavIcon */
 .menu-bars {
     margin-left: 2rem;
     font-size: 2rem;
+    height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     background: none;
 }
 
+/* SidebarNav */
 .nav-menu {
     background-color: #575454;
     width: 250px;
@@ -22,8 +30,10 @@
     top: 0;
     left: -100%;
     transition: 850ms;
+    z-index: 10;
 }
 
+/* SidebarNav - när den syns */
 .nav-menu.active {
     left: 0;
     transition: 350ms;
@@ -54,10 +64,12 @@
     background-color: #1a83ff;
 }
 
+/* SidebarWrap */
 .nav-menu-items {
     width: 100%;
 }
 
+/* borttagen? */
 .navbar-toggle {
     background-color: #575454;
     width: 100%;
