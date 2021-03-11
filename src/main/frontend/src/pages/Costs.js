@@ -4,7 +4,7 @@ function Costs() {
 
     return (
         <div className='costs'>
-            <h1>Costs</h1>
+            <h1>Kostnader</h1>
         </div>
     );
 }

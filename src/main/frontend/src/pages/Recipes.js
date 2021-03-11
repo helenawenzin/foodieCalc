@@ -4,7 +4,7 @@ function Recipes() {
 
     return (
         <div className='recipes'>
-            <h1>Recipes</h1>
+            <h1>Recept</h1>
         </div>
     );
 }
