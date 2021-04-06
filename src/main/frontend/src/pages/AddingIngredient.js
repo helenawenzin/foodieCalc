@@ -33,21 +33,27 @@ function AddingIngredient() {
 
     return (
 
-    <div className='addingIngredient' >
-        <div>
-            <h1>Lägg till ingrediens!</h1>
+    <div className='addingPage' >
+        <div className='float-child'>
+            <div>
+                <h1>Lägg till ingrediens!</h1>
+            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+
+                <input type="text" placeholder="namn" name="name" ref={register({ required: "Namn på ingrediens krävs"})}/>
+                <input type="text" placeholder="inköpspris" name="purchasePrice" ref={register}/>
+                <input type="text" placeholder="vikt el antal" name="purchaseOrWeightQuantity" ref={register}/>
+                <input type="text" placeholder="vikt i 1dl" name="oneDeciliterWeight" ref={register}/>
+                <input type="submit" />
+
+                {errors.name && <p>{errors.name.message}</p>}
+            </form>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-
-            <input type="text" placeholder="Skriv in namn" name="name" ref={register({ required: "Namn på ingrediens krävs"})}/>
-            <input type="text" placeholder="Skriv in inköpspris" name="purchasePrice" ref={register}/>
-            <input type="text" placeholder="Skriv in vikt el antal" name="purchaseOrWeightQuantity" ref={register}/>
-            <input type="text" placeholder="Skriv in 1dl vikt" name="oneDeciliterWeight" ref={register}/>
-            <input type="submit" />
-
-            {errors.name && <p>{errors.name.message}</p>}
-        </form>
+        <div className='float-child'>
+            <p>här ska en lista med ingredienser in</p>
+        </div>
     </div>
 
     );

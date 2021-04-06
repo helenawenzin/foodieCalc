@@ -1,5 +1,5 @@
-.addingIngredient {
-    width: 60%;
+.addingPage {
+    width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,10 +8,19 @@
     top: 100px;
 }
 
-.addingIngredient input {
+.addingPage input {
     width: 100%;
     height: 56%;
     position: relative;
     text-align: center;
+    margin: 2px;
+}
+
+.float-child {
+    widht: 50%;
+    float: left;
+    padding: 20px;
+    border: 2px solid black;
+    margin: 20px;
 }
 
