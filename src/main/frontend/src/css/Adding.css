@@ -1,0 +1,17 @@
+.addingIngredient {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: 300px;
+    top: 100px;
+}
+
+.addingIngredient input {
+    width: 100%;
+    height: 56%;
+    position: relative;
+    text-align: center;
+}
+
